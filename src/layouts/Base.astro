@@ -1,15 +1,22 @@
 ---
+import { t, toggleLocaleHref, localePath, type Lang } from "../i18n";
+
 export interface Props {
   title: string;
   description: string;
   ogImage?: string;
   canonical?: string;
+  lang: Lang;
 }
-const { title, description, ogImage = "/assets/og-image.png", canonical } = Astro.props;
+const { title, description, ogImage = "/assets/og-image.png", canonical, lang } = Astro.props;
 const url = canonical ?? Astro.url.href;
+const tr = t(lang);
+const langPath = Astro.url.pathname;
+const oppositeLangHref = toggleLocaleHref(langPath, lang);
+const htmlLang = lang === "zh-tw" ? "zh-Hant" : "en";
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang={htmlLang}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,8 +32,8 @@ const url = canonical ?? Astro.url.href;
   <meta property="og:description" content={description} />
   <meta property="og:url" content={url} />
   <meta property="og:image" content={ogImage} />
-  <meta property="og:locale" content="zh_TW" />
-  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale" content={lang === "zh-tw" ? "zh_TW" : "en_US"} />
+  <meta property="og:locale:alternate" content={lang === "zh-tw" ? "en_US" : "zh_TW"} />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
@@ -118,6 +125,16 @@ const url = canonical ?? Astro.url.href;
     .nav-links a:hover { color: var(--text); text-decoration: none; }
     .nav-links a.active { color: var(--accent); }
     .nav-actions { display: flex; gap: 14px; align-items: center; }
+    .lang-toggle {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 120ms;
+    }
+    .lang-toggle:hover { color: var(--accent); border-color: var(--border-strong); text-decoration: none; }
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 10px 18px;
@@ -150,7 +167,7 @@ const url = canonical ?? Astro.url.href;
 
     /* Sections */
     section.block { padding: 100px 0; position: relative; }
-    .section-head { text-align: center; max-width: 720px; margin: 0 auto 64px; }
+    .section-head { text-align: center; max-width: 760px; margin: 0 auto 64px; }
     .section-eyebrow {
       font-family: var(--mono);
       font-size: 12px;
@@ -174,6 +191,7 @@ const url = canonical ?? Astro.url.href;
       line-height: 1.65;
       margin: 0;
     }
+    .grid-4 { display: grid; gap: 20px; grid-template-columns: repeat(4, 1fr); }
     .grid-3 { display: grid; gap: 24px; grid-template-columns: repeat(3, 1fr); }
     .grid-2 { display: grid; gap: 24px; grid-template-columns: repeat(2, 1fr); }
     .card {
@@ -212,7 +230,7 @@ const url = canonical ?? Astro.url.href;
     .card p { margin: 0 0 14px; color: var(--muted); line-height: 1.65; }
     .card ul { margin: 14px 0 18px; padding-left: 18px; color: var(--muted); }
     .card ul li { margin: 6px 0; line-height: 1.55; }
-    .card code {
+    .card code, .markdown-block code {
       font-family: var(--mono); font-size: 12px;
       background: rgba(212, 168, 67, 0.08);
       color: var(--accent-2);
@@ -233,6 +251,17 @@ const url = canonical ?? Astro.url.href;
       background: rgba(240, 237, 230, 0.04);
       color: var(--muted);
       border-color: var(--border);
+    }
+    pre {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text);
     }
 
     /* Hero */
@@ -284,6 +313,203 @@ const url = canonical ?? Astro.url.href;
       margin: 0 auto 60px;
     }
 
+    /* Compat */
+    .compat { text-align: center; margin: 36px 0; }
+    .compat-label {
+      font-family: var(--mono); font-size: 12px;
+      letter-spacing: 0.1em; color: var(--dim);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .compat-row {
+      display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+    }
+    .pill {
+      font-family: var(--mono); font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(240, 237, 230, 0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .pill.new {
+      background: var(--gold-dim);
+      color: var(--accent-2);
+      border-color: var(--border-gold);
+    }
+
+    /* Terminal */
+    .terminal {
+      background: var(--bg-elev);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      max-width: 760px; margin: 40px auto 0;
+      overflow: hidden;
+      text-align: left;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+    .terminal-bar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono); font-size: 12px;
+      color: var(--muted);
+    }
+    .terminal-bar .dots { display: flex; gap: 6px; }
+    .terminal-bar .dot {
+      width: 11px; height: 11px; border-radius: 50%;
+      display: inline-block;
+    }
+    .terminal-bar .dot.r { background: #FF5F57; }
+    .terminal-bar .dot.y { background: #FEBC2E; }
+    .terminal-bar .dot.g { background: #28C840; }
+    .terminal-body {
+      padding: 18px 20px;
+      font-family: var(--mono); font-size: 13px;
+      line-height: 1.9;
+    }
+    .terminal-body .prompt { color: var(--accent); font-weight: 600; }
+    .terminal-body .user { color: var(--text); }
+    .terminal-body .cmt { color: var(--dim); }
+    .terminal-body .out { color: var(--muted); }
+    .terminal-body .ok { color: var(--green); }
+    .terminal-body .warn { color: var(--yellow); }
+    .terminal-body .cursor {
+      display: inline-block; width: 8px; height: 14px;
+      background: var(--accent); vertical-align: middle;
+      margin-left: 4px;
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Layer block (vertical timeline) */
+    .layer-list { display: grid; gap: 16px; }
+    .layer-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 24px; align-items: start;
+      padding: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .layer-row .layer-label {
+      font-family: var(--mono); font-size: 12px;
+      color: var(--accent); letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .layer-row .layer-body {
+      color: var(--muted); font-size: 15px;
+      line-height: 1.7;
+    }
+    .layer-row .layer-body h4 {
+      font-family: var(--serif); margin: 0 0 8px;
+      color: var(--text); font-size: 18px; font-weight: 700;
+    }
+
+    /* Tools grid */
+    .tools-grid {
+      display: grid; gap: 20px;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .tool-cat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+    }
+    .tool-cat .label {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--accent); letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .tool-cat .items {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .tool-cat .items code, .tool-cat code {
+      font-family: var(--mono); font-size: 12px;
+      background: rgba(212, 168, 67, 0.06);
+      color: var(--accent-2);
+      padding: 3px 8px; border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .tool-cat ul {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .tool-cat ul li {
+      padding: 6px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .tool-cat ul li code {
+      margin-right: 6px;
+    }
+
+    /* Pipeline */
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      align-items: stretch;
+      margin: 0 auto;
+      max-width: 1000px;
+    }
+    .pipe-step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      position: relative;
+    }
+    .pipe-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -22px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 24px;
+      z-index: 2;
+    }
+    .pipe-step .pipe-name {
+      font-family: var(--serif);
+      font-size: 22px;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .pipe-step .pipe-owner {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .pipe-step .pipe-blurb {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* Final CTA */
+    .final-cta {
+      text-align: center;
+      background: linear-gradient(180deg, rgba(212, 168, 67, 0.08), transparent);
+      padding: 80px 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .final-cta h2 {
+      font-family: var(--serif);
+      font-size: 38px;
+      margin: 0 0 14px;
+    }
+    .final-cta p { color: var(--muted); margin: 0 0 26px; }
+
     /* Footer */
     footer {
       padding: 60px 0;
@@ -303,28 +529,37 @@ const url = canonical ?? Astro.url.href;
       font-family: var(--mono); font-size: 11px; color: var(--dim);
     }
 
+    @media (max-width: 880px) {
+      .pipeline { grid-template-columns: 1fr; }
+      .pipe-step:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -22px; transform: translateX(-50%); }
+      .tools-grid { grid-template-columns: 1fr; }
+    }
     @media (max-width: 760px) {
       .hero-title { font-size: 44px; }
       .section-title { font-size: 32px; }
-      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
       .nav-links { display: none; }
+      .layer-row { grid-template-columns: 1fr; gap: 8px; }
     }
   </style>
 </head>
 <body>
   <nav class="top">
     <div class="container">
-      <a href="/" class="brand">
+      <a href={localePath(lang, "/")} class="brand">
         <img src="/assets/logo.png" alt="" />
         mk-family<span class="dot">.</span>
       </a>
       <div class="nav-links">
-        <a href="/">Family</a>
-        <a href="/qa-master">QA Master</a>
-        <a href="/spec-master">Spec Master</a>
+        <a href={localePath(lang, "/")}>{tr.nav.family}</a>
+        <a href={localePath(lang, "qa-master")}>{tr.nav.qa}</a>
+        <a href={localePath(lang, "spec-master")}>{tr.nav.spec}</a>
       </div>
       <div class="nav-actions">
-        <a class="btn btn-ghost btn-sm" href="https://github.com/kao273183">GitHub</a>
+        <a class="lang-toggle" href={oppositeLangHref}>
+          {lang === "en" ? "EN / 中" : "EN / 中"}
+        </a>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/kao273183">{tr.nav.github}</a>
       </div>
     </div>
   </nav>
@@ -334,13 +569,13 @@ const url = canonical ?? Astro.url.href;
   <footer>
     <div class="container">
       <div class="links">
-        <a href="/">Family</a>
-        <a href="/qa-master">mk-qa-master</a>
-        <a href="/spec-master">mk-spec-master</a>
+        <a href={localePath(lang, "/")}>{tr.nav.family}</a>
+        <a href={localePath(lang, "qa-master")}>mk-qa-master</a>
+        <a href={localePath(lang, "spec-master")}>mk-spec-master</a>
         <a href="https://github.com/kao273183">GitHub</a>
-        <a href="https://www.buymeacoffee.com/minikao" target="_blank" rel="noopener" style="color: #FFDD00;">☕ Support</a>
+        <a href="https://www.buymeacoffee.com/minikao" target="_blank" rel="noopener" style="color: #FFDD00;">{tr.footer.support}</a>
       </div>
-      <div class="meta">MIT License · Built by <a href="https://chenjundigital.com" style="color: var(--accent);">宸鈞數位</a> →</div>
+      <div class="meta">{tr.footer.builtBy} <a href="https://chenjundigital.com" style="color: var(--accent);">宸鈞數位</a> →</div>
     </div>
   </footer>
 </body>
