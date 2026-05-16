@@ -17,7 +17,7 @@ const en: Translation = {
       eyebrow: "Open source · Model Context Protocol · AI-QA Family",
       title: 'The <span class="accent">mk-*</span> family.<br/>AI QA, decomposed.',
       altName: "AI 大師系列 · MK FAMILY",
-      sub: "An opinionated family of MCP servers for AI-driven QA workflows. Each member owns one job in the loop — <strong>specs</strong> in, <strong>tests</strong> out, <strong>coverage</strong> tracked, <strong>suite</strong> coached. Compose them in your Claude / Cursor / Codex / Gemini config and let the AI drive.",
+      sub: "An opinionated family of MCP servers for AI-driven QA workflows. Each member owns one job in the loop — <strong>specs</strong> in, <strong>tests</strong> out, <strong>coverage</strong> tracked, <strong>suite</strong> coached, <strong>trend</strong> self-reinforced over time. Compose them in your Claude / Cursor / Codex / Gemini config and let the AI drive.",
       ctaPrimary: "Meet the family →",
       ctaGhost: "View on GitHub",
     },
@@ -153,7 +153,7 @@ const en: Translation = {
       eyebrow: "Member 2 · Traceability side of the loop",
       title: 'Specs in.<br/><span class="accent">Scenarios out.</span>',
       altName: "AI 規格大師 · MK SPEC MASTER",
-      sub: "mk-spec-master reads specs from <strong>Linear / JIRA / GitHub Issues / Notion / Figma / Markdown</strong> and turns them into structured scenarios you hand to any test runner. Keeps a live <strong>spec ↔ test</strong> coverage matrix and grades the specs themselves — the differentiator vs Kiro / Spec Kit / Jama.",
+      sub: "mk-spec-master reads specs from <strong>Linear / JIRA / GitHub Issues / Notion / Figma / Markdown</strong> and turns them into structured scenarios you hand to any test runner. Keeps a live <strong>spec ↔ test</strong> coverage matrix, grades the specs themselves, and (v0.4+) <strong>self-reinforces over time</strong> — trend deltas, chronic-spec detection, tool-usage telemetry. The differentiator vs Kiro / Spec Kit / Jama.",
     },
     notFor: {
       eyebrow: "Scope",
@@ -169,7 +169,7 @@ const en: Translation = {
     },
     tools: {
       eyebrow: "Tool surface",
-      title: '15 tools across <span class="accent">6 roles</span>',
+      title: '18 tools across <span class="accent">7 roles</span>',
       sub: "Grouped by role. Each group is one layer in the spec → test → coverage → coach loop.",
       groups: [
         {
@@ -213,6 +213,14 @@ const en: Translation = {
           items: [
             { tool: "init_spec_knowledge", purpose: "Starter spec-knowledge.md (EARS, INVEST, AC quality rules)." },
             { tool: "get_spec_context", purpose: "Read the methodology file; optional section filter." },
+          ],
+        },
+        {
+          name: "Self-reinforcement — longitudinal view (v0.4)",
+          items: [
+            { tool: "get_spec_history", purpose: "Trend deltas current vs ~7d / ~30d across coverage / quality / drift." },
+            { tool: "get_drift_signature", purpose: "Chronic-spec detection: unstable / chronic_low_quality / chronic_unhashed." },
+            { tool: "get_telemetry", purpose: "Tool-usage log: top tools, error rate, p50/p95, dead surface. No argument values logged." },
           ],
         },
       ],

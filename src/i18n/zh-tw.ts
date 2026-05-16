@@ -17,7 +17,7 @@ const zhTw: Translation = {
       eyebrow: "開源 · Model Context Protocol · AI-QA 家族",
       title: 'mk-<span class="accent">*</span> 家族<br/>把 AI QA 拆開來做',
       altName: "AI 大師系列 · MK FAMILY",
-      sub: "一系列為 AI 驅動 QA 流程設計的 MCP server。每支只做一件事 —— <strong>規格</strong>進、<strong>測試</strong>出、<strong>覆蓋率</strong>追蹤、<strong>套件</strong>被教練。把它們塞進 Claude / Cursor / Codex / Gemini 的 config，讓 AI 來開車。",
+      sub: "一系列為 AI 驅動 QA 流程設計的 MCP server。每支只做一件事 —— <strong>規格</strong>進、<strong>測試</strong>出、<strong>覆蓋率</strong>追蹤、<strong>套件</strong>被教練、<strong>趨勢</strong>跨時間自我強化。把它們塞進 Claude / Cursor / Codex / Gemini 的 config，讓 AI 來開車。",
       ctaPrimary: "看看家族成員 →",
       ctaGhost: "到 GitHub 看原始碼",
     },
@@ -153,7 +153,7 @@ const zhTw: Translation = {
       eyebrow: "成員 2 · 迴圈的追蹤端",
       title: '規格進。<br/><span class="accent">場景出。</span>',
       altName: "AI 規格大師 · MK SPEC MASTER",
-      sub: "mk-spec-master 讀 <strong>Linear / JIRA / GitHub Issues / Notion / Figma / Markdown</strong> 的規格，轉成結構化場景丟給測試 runner。維持即時 <strong>spec ↔ test</strong> 覆蓋矩陣，並對規格本身打分——這是相對 Kiro / Spec Kit / Jama 的差異化核心。",
+      sub: "mk-spec-master 讀 <strong>Linear / JIRA / GitHub Issues / Notion / Figma / Markdown</strong> 的規格，轉成結構化場景丟給測試 runner。維持即時 <strong>spec ↔ test</strong> 覆蓋矩陣、對規格本身打分，並從 v0.4 起<strong>跨時間自我強化</strong>——trend、chronic-spec 偵測、工具使用 telemetry。這是相對 Kiro / Spec Kit / Jama 的差異化核心。",
     },
     notFor: {
       eyebrow: "範圍",
@@ -169,7 +169,7 @@ const zhTw: Translation = {
     },
     tools: {
       eyebrow: "Tool 表",
-      title: '15 個 tool、分 <span class="accent">6 個角色</span>',
+      title: '18 個 tool、分 <span class="accent">7 個角色</span>',
       sub: "按角色分組。每組是 spec → test → coverage → coach 流水線的一層。",
       groups: [
         {
@@ -213,6 +213,14 @@ const zhTw: Translation = {
           items: [
             { tool: "init_spec_knowledge", purpose: "起始 spec-knowledge.md（EARS、INVEST、AC 品質規則）" },
             { tool: "get_spec_context", purpose: "讀方法論檔，可選 section 過濾" },
+          ],
+        },
+        {
+          name: "Self-reinforcement — 跨時間自我強化（v0.4）",
+          items: [
+            { tool: "get_spec_history", purpose: "覆蓋 / 品質 / drift 的 trend：當下 vs ~7 天前 vs ~30 天前" },
+            { tool: "get_drift_signature", purpose: "長期問題偵測：unstable / 長期低品質 / 長期沒 ac_hash" },
+            { tool: "get_telemetry", purpose: "工具使用 log：熱門 tool、錯誤率、p50/p95、未被呼叫 tool。不記錄參數內容" },
           ],
         },
       ],
