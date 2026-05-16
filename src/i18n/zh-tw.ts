@@ -91,6 +91,14 @@ const zhTw: Translation = {
       eyebrow: "流程",
       title: "一個會自我修正的迴圈",
       sub: "每次 run 餵 optimizer、optimizer 指出最弱環節、下次 run 優先攻那一環。沒有這個迴圈、AI 只是個更快的 monkey tester。",
+      steps: [
+        { name: "分析", tool: "analyze_url / analyze_screen", blurb: "Web 偵測 DOM、手機抓 hierarchy → form / cta / nav 模塊 + 真實 selector。" },
+        { name: "產生", tool: "generate_test / auto_generate_tests", blurb: "對抓到的模塊產可直接跑的 pytest .py 或 Maestro .yaml——不是 # TODO 占位符。" },
+        { name: "執行", tool: "run_tests / run_failed", blurb: "驅動原生 runner，產 JUnit XML、截圖、trace.zip / Maestro 錄影。" },
+        { name: "回報", tool: "get_test_report / get_failure_details", blurb: "outcome 字串 + error signature + history 快照。下一步餵給顧問。" },
+        { name: "顧問", tool: "get_optimization_plan", blurb: "三個視角（套件 / MCP / AI）→ 排序好的下次 run 行動清單。迴圈在這裡閉合。" },
+      ],
+      loopback: "↻ 下次 run 優先攻最弱的那條",
     },
     knowledge: {
       eyebrow: "領域知識的三層架構",

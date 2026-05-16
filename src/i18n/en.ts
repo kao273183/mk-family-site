@@ -91,6 +91,14 @@ const en: Translation = {
       eyebrow: "The pipeline",
       title: "A self-correcting loop",
       sub: "Every run feeds the optimizer; the optimizer points at the weakest link; the next run attacks it first. Without this loop, AI is just a faster monkey tester.",
+      steps: [
+        { name: "Analyze", tool: "analyze_url / analyze_screen", blurb: "Probe the DOM (web) or live mobile hierarchy → form / cta / nav modules + selectors." },
+        { name: "Generate", tool: "generate_test / auto_generate_tests", blurb: "Emit runnable pytest .py or Maestro .yaml against the detected modules — not # TODO." },
+        { name: "Run", tool: "run_tests / run_failed", blurb: "Drive the native runner, capture JUnit XML, screenshots, trace.zip / Maestro recordings." },
+        { name: "Report", tool: "get_test_report / get_failure_details", blurb: "Outcome strings + error signatures + history snapshot. Feeds the advisor next." },
+        { name: "Advise", tool: "get_optimization_plan", blurb: "Three lenses (suite / MCP / AI) → ranked next-run action list. The loop closes here." },
+      ],
+      loopback: "↻ next run attacks the weakest link",
     },
     knowledge: {
       eyebrow: "QA knowledge in three layers",

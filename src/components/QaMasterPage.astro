@@ -89,6 +89,16 @@ const description = lang === "en"
         <h2 class="section-title">{tr.qa.pipeline.title}</h2>
         <p class="section-sub">{tr.qa.pipeline.sub}</p>
       </div>
+      <div class="qa-loop">
+        {tr.qa.pipeline.steps.map((s) => (
+          <div class="qa-loop-step">
+            <div class="qa-loop-name">{s.name}</div>
+            <div class="qa-loop-tool"><code>{s.tool}</code></div>
+            <div class="qa-loop-blurb">{s.blurb}</div>
+          </div>
+        ))}
+      </div>
+      <div class="qa-loop-back">{tr.qa.pipeline.loopback}</div>
     </div>
   </section>
 

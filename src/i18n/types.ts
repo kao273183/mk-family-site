@@ -74,6 +74,8 @@ export interface Translation {
       eyebrow: string;
       title: string;
       sub: string;
+      steps: { name: string; tool: string; blurb: string }[];
+      loopback: string;
     };
     knowledge: {
       eyebrow: string;
