@@ -29,15 +29,16 @@
       "tagline_zh": "規格 → 場景 → 測試,雙向 spec ↔ test 追蹤。",
       "role": "Traceability side of the loop",
       "role_zh": "迴圈的追蹤端",
-      "status": "alpha · v0.3.3",
+      "status": "alpha · v0.4.0",
       "github": "https://github.com/kao273183/mk-spec-master",
       "pypi": "https://pypi.org/project/mk-spec-master/",
-      "tools": 15,
+      "tools": 18,
       "highlights": [
         "6 spec sources: Markdown, GitHub Issues, Linear, JIRA, Notion, Figma",
         "Spec-quality coach: vague-language + implementation-leak + unclear-role heuristics",
         "Coverage matrix + drift report (ac_hash-based)",
-        "auto_link_tests — scan @spec: tags from Python / JS / TS / Go test files"
+        "auto_link_tests — scan @spec: tags from Python / JS / TS / Go test files",
+        "v0.4 self-reinforcement: history trend, chronic-drift signature, tool-usage telemetry"
       ]
     }
   ],
