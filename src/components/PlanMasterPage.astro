@@ -1,0 +1,180 @@
+---
+import Base from "../layouts/Base.astro";
+import { t, localePath, type Lang } from "../i18n";
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const title = lang === "en"
+  ? "mk-plan-master · AI 規劃大師 — ideas in, prioritized plans out"
+  : "mk-plan-master · AI 規劃大師 — 點子進、排序好的計劃出";
+const description = lang === "en"
+  ? "MCP server bridging raw ideas (Markdown / Linear / JIRA / Notion) to prioritized plans, with RICE + Impact-Effort scoring and a spec-draft handoff to mk-spec-master."
+  : "MCP server,把點子（Markdown / Linear / JIRA / Notion）橋接到排序好的計劃,RICE + Impact-Effort 打分,spec draft 直接遞給 mk-spec-master。";
+---
+<Base title={title} description={description} lang={lang}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <img src="/assets/logo.png" alt="mk-plan-master" class="hero-logo" />
+      <span class="eyebrow">{tr.plan.hero.eyebrow}</span>
+      <h1 class="hero-title" set:html={tr.plan.hero.title}></h1>
+      <p class="hero-alt-name">{tr.plan.hero.altName}</p>
+      <p class="hero-sub" set:html={tr.plan.hero.sub}></p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/kao273183/mk-plan-master">{tr.cta.github} →</a>
+        <a class="btn btn-ghost" href="https://pypi.org/project/mk-plan-master/">{tr.cta.pypi}</a>
+        <a class="btn btn-ghost" href="https://github.com/kao273183/mk-plan-master/blob/main/README.md">{tr.cta.readDocs}</a>
+      </div>
+
+      <div class="compat" style="margin-top: 36px;">
+        <div class="compat-label">{lang === "en" ? "Reads ideas from" : "讀取點子來源"}</div>
+        <div class="compat-row">
+          <span class="pill">Markdown</span>
+          <span class="pill">Linear</span>
+          <span class="pill">JIRA</span>
+          <span class="pill">Notion</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why this MCP exists -->
+  <section class="block">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.plan.why.eyebrow}</div>
+        <h2 class="section-title">{tr.plan.why.title}</h2>
+        <p class="section-sub">{tr.plan.why.sub}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What this is NOT -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.plan.notFor.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.plan.notFor.title}></h2>
+        <p class="section-sub">{tr.plan.notFor.sub}</p>
+      </div>
+      <div class="layer-list">
+        {tr.plan.notFor.rows.map((r) => (
+          <div class="layer-row">
+            <div class="layer-label" style="color: var(--red);">{r.not}</div>
+            <div class="layer-body">→ {r.instead}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tool surface -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.plan.tools.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.plan.tools.title}></h2>
+        <p class="section-sub">{tr.plan.tools.sub}</p>
+      </div>
+      <div class="tools-grid">
+        {tr.plan.tools.groups.map((g) => (
+          <div class="tool-cat">
+            <div class="label">{g.name}</div>
+            <ul>
+              {g.items.map((i) => (
+                <li><code>{i.tool}</code> — <span set:html={i.purpose}></span></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Adapters -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.plan.adapters.eyebrow}</div>
+        <h2 class="section-title">{tr.plan.adapters.title}</h2>
+        <p class="section-sub" set:html={tr.plan.adapters.sub}></p>
+      </div>
+      <div class="layer-list">
+        {tr.plan.adapters.rows.map((r) => (
+          <div class="layer-row">
+            <div class="layer-label"><code>{r.src}</code></div>
+            <div class="layer-body">
+              <strong>auth:</strong> {r.auth}
+              <br/><span style="color: var(--dim); font-size: 13px;">since {r.since}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflows -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.plan.workflows.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.plan.workflows.title}></h2>
+        <p class="section-sub">{tr.plan.workflows.sub}</p>
+      </div>
+      <div class="grid-2">
+        {tr.plan.workflows.items.map((w, i) => (
+          <div class="card">
+            <div class="role">{i + 1}.</div>
+            <p style="color: var(--text); font-style: italic; margin-bottom: 16px;">"{w.prompt}"</p>
+            <pre style="font-size: 11px; padding: 14px; line-height: 1.8; white-space: pre-wrap; word-break: break-word;">{w.chain}</pre>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample output: IDEA-001 vs IDEA-002 -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.plan.samples.eyebrow}</div>
+        <h2 class="section-title">{tr.plan.samples.title}</h2>
+        <p class="section-sub">{tr.plan.samples.sub}</p>
+      </div>
+      <h3 style="font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px;">{tr.plan.samples.pass1Title}</h3>
+      <pre style="margin-bottom: 32px;">{tr.plan.samples.pass1}</pre>
+      <h3 style="font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px;">{tr.plan.samples.pass2Title}</h3>
+      <pre style="margin-bottom: 24px;">{tr.plan.samples.pass2}</pre>
+      <p style="color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 760px; margin: 0 auto; text-align: center;">{tr.plan.samples.deltaCaption}</p>
+    </div>
+  </section>
+
+  <!-- Install + cross-link -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="final-cta">
+        <h2>{tr.common.install.titlePlan}</h2>
+        <p>{tr.common.install.explain}</p>
+        <pre style="text-align: left; margin: 24px auto; max-width: 720px;">{`{
+  "mcpServers": {
+    "mk-plan-master": {
+      "command": "uvx",
+      "args": ["mk-plan-master"],
+      "env": {
+        "PLAN_SOURCE": "markdown_local",
+        "PLAN_PROJECT_ROOT": "/path/to/your/project"
+      }
+    }
+  }
+}`}</pre>
+        <div class="cta-row" style="margin-top: 12px;">
+          <a class="btn btn-primary" href="https://github.com/kao273183/mk-plan-master#readme">{tr.cta.readDocs} →</a>
+          <a class="btn btn-ghost" href={localePath(lang, "spec-master")}>{tr.cta.sibling} mk-spec-master</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

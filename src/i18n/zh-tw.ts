@@ -5,6 +5,7 @@ const zhTw: Translation = {
     family: "家族",
     qa: "測試大師",
     spec: "規格大師",
+    plan: "規劃大師",
     github: "GitHub",
   },
   footer: {
@@ -23,8 +24,8 @@ const zhTw: Translation = {
     },
     members: {
       eyebrow: "目前成員",
-      title: '兩支 MCP。<span class="accent">一個迴圈。</span>',
-      sub: "mk-qa-master 跑測試。mk-spec-master 追測試覆蓋。兩支組成 spec → test → coverage → coach 完整迴圈——任何 MCP client 都能合起來用，不需要 MCP-to-MCP RPC。",
+      title: '三支 MCP。<span class="accent">一條完整 pipeline。</span>',
+      sub: "mk-plan-master 排序點子。mk-spec-master 把規格變場景、追測試覆蓋。mk-qa-master 跑測試。三支組成 idea → plan → spec → test → coverage → coach 完整迴圈——任何 MCP client 都能合起來用，不需要 MCP-to-MCP RPC。",
       deepDive: "深度介紹 →",
     },
     future: {
@@ -35,10 +36,11 @@ const zhTw: Translation = {
     },
     loop: {
       eyebrow: "迴圈",
-      title: '規格 → 測試 → 覆蓋率 → <span class="accent">教練</span>',
-      sub: "每支 MCP 負責一段。AI client 自動串接。整個迴圈不會單獨跑——每一步都餵下一步。",
+      title: '規格 → 程式碼 → 測試 → 覆蓋率 → <span class="accent">教練</span>',
+      sub: "每支 MCP 負責一段。AI client 自動串接。中間的「寫程式碼」一格故意交給你的 IDE（Claude Code / Cursor / Copilot）——家族不碰這層、不重造 IDE 的輪子。TDD 框架下，測試是規格的可執行版本，你的 IDE 把紅燈一條條變綠。",
       steps: [
         { name: "規格", owner: "spec-master", blurb: "Linear / JIRA / Notion / Figma / GitHub Issues / Markdown" },
+        { name: "程式碼", owner: "你的 IDE", blurb: "Claude Code · Cursor · Copilot——AI 對著紅燈測試寫 app 程式碼，家族故意不碰這層" },
         { name: "測試", owner: "qa-master", blurb: "pytest / Jest / Cypress / Go test / Maestro · web + mobile" },
         { name: "覆蓋", owner: "spec-master", blurb: "spec ↔ test 對應矩陣 · drift 偵測 · @spec tag 自動 link" },
         { name: "教練", owner: "兩者", blurb: "optimization plan · 規格品質打分 · MCP 使用 telemetry" },
@@ -50,8 +52,8 @@ const zhTw: Translation = {
     },
     install: {
       eyebrow: "安裝",
-      title: '把兩支都丟進你的 <span class="accent">MCP client config</span>',
-      sub: "一段 JSON。AI client 會自動串。",
+      title: '把三支都丟進你的 <span class="accent">MCP client config</span>',
+      sub: "一段 JSON。AI client 會自動串：點子 → 計劃 → 規格 → 測試。",
     },
   },
 
@@ -300,6 +302,160 @@ _Drift: 2 drifted, 0 stranded, 5 without ac_hash._
     },
   },
 
+  plan: {
+    hero: {
+      eyebrow: "成員 3 · 迴圈的規劃端",
+      title: '點子進。<br/><span class="accent">排序好的計劃出。</span>',
+      altName: "AI 規劃大師 · MK PLAN MASTER",
+      sub: "mk-plan-master 讀 <strong>Markdown / Linear / JIRA / Notion</strong> 裡的點子，做 idea triage、跑 RICE / Impact-Effort 排序，產一份能直接餵 <code>mk-spec-master.parse_spec</code> 的 spec draft。<strong>analyze_initiative</strong> 是核心——強制 AI 走資深 PM 分析 SOP，不再用兩段話亂猜 RICE。內建決策歷史 + 簽名 + telemetry，把 mk-spec-master v0.4 的自我強化模式套到上游。",
+    },
+    why: {
+      eyebrow: "為什麼這支存在",
+      title: "把 Idea → Plan → Spec → Code → Test 的迴圈補上游那一格",
+      sub: "mk-spec-master 和 mk-qa-master 已經顧到右半邊。上游那個「30~200 個點子怎麼變成排序好的季度 roadmap、再吐成 spec draft」的缺口，沒有人做 MCP-native。mk-plan-master 把那一格補起來——而且 generate_spec_draft 的輸出 verbatim 餵進 mk-spec-master.parse_spec，沒有手動 reformat、沒有 copy-paste 脆弱性。",
+    },
+    notFor: {
+      eyebrow: "範圍",
+      title: "這「<em>不</em>」是什麼",
+      sub: "mk-plan-master 站在點子來源跟 spec 之間。它不是 web crawler、不是 code writer、不是 LLM、不是 SaaS UI。",
+      rows: [
+        { not: "Web crawler", instead: "AI client 自己用 WebFetch / chat 蒐集，再呼叫 add_initiative 寫成 markdown" },
+        { not: "Code writer", instead: "spec_draft 進 mk-spec-master → 程式碼留給 IDE（Claude Code / Cursor / Copilot）" },
+        { not: "LLM", instead: "推理交給你的 AI client（Claude / Cursor / Codex / Gemini）。analyze_initiative 只 scaffold prompt、不呼叫 LLM" },
+        { not: "Productboard / Aha! 替代 UI", instead: "MCP-native，住在 AI client 裡。直接讀你原本就在用的 Linear / JIRA / Notion" },
+        { not: "Spec 編輯器", instead: "mk-spec-master + 你原本就用的 Linear / JIRA / Notion / Markdown" },
+      ],
+    },
+    tools: {
+      eyebrow: "Tool 表",
+      title: '15 個 tool、分 <span class="accent">9 個角色</span>',
+      sub: "按角色分組。每組是 idea → plan → spec → memory 流水線的一層。",
+      groups: [
+        {
+          name: "Meta — 暖機",
+          items: [{ tool: "get_plan_source_info", purpose: "目前用哪個 adapter、有哪些可用、版本——session 第一個叫" }],
+        },
+        {
+          name: "Discovery — 找跟讀點子",
+          items: [
+            { tool: "list_initiatives", purpose: "依 status / label / limit 過濾。Linear: triage / backlog / unstarted；JIRA: To Do；Notion: Triage / Backlog / Idea" },
+            { tool: "fetch_initiative", purpose: "依 id 拉單一 initiative，回傳含 raw_metadata（RICE 輸入：reach / impact / confidence / effort / okr）" },
+          ],
+        },
+        {
+          name: "Capture — chat / WebFetch 接手",
+          items: [
+            { tool: "add_initiative", purpose: "把 AI 透過 WebFetch / chat / 通話筆記蒐集到的點子寫成 initiatives/<id>.md。**家族不爬 URL**——你 summarize、這支寫。自動產 IDEA-NNN" },
+          ],
+        },
+        {
+          name: "Analysis — 資深 PM SOP",
+          items: [
+            { tool: "analyze_initiative", purpose: "**核心 meta-tool**。強制 AI 跑資深 PM 分析 SOP——target users / competition / market signal / risks / MVP scope / out-of-scope / RICE rationale。三個 framework：default（7 段）/ lite（4 段）/ lean_canvas（9 格）。不呼叫 LLM，只 scaffold prompt" },
+          ],
+        },
+        {
+          name: "Scoring — 排序 backlog",
+          items: [
+            { tool: "score_initiative", purpose: "RICE 或 Impact-Effort 打分。Tier：P0 > 25、P1 10..25、P2 3..10、P3 < 3。寫一筆 scored decision 到 index.json" },
+            { tool: "rank_backlog", purpose: "全 backlog 打分、回 top-N。**自動 archive snapshot**（debounce 5 分鐘）餵 get_planning_history / get_decision_signature 算 trend" },
+          ],
+        },
+        {
+          name: "Bridge — 家族鎖鏈",
+          items: [
+            { tool: "generate_spec_draft", purpose: "**家族橋接 tool**。產出 markdown spec draft，shape 成 mk-spec-master.parse_spec(raw_text=...) 能 verbatim 吃。三個 template：default / lite / detailed" },
+          ],
+        },
+        {
+          name: "Roadmap — 季度規劃",
+          items: [
+            { tool: "generate_roadmap", purpose: "把排序後 backlog 塞進季度 markdown roadmap，吃 capacity envelope（engineer-months × 4 person-weeks）扣 buffer（預設 20%）。Greedy score-per-effort packer" },
+            { tool: "analyze_roadmap_balance", purpose: "把 top-N 分 feature / tech_debt / strategic / unlabeled 桶子，回 ratio + score-share + heuristic 建議。「roadmap 平衡嗎？tech debt 餓死了嗎？」" },
+          ],
+        },
+        {
+          name: "Knowledge — 方法論",
+          items: [
+            { tool: "init_plan_knowledge", purpose: "起 plan-knowledge.md：RICE / WSJF / Impact-Effort / OKR / INVEST / personas + 待填 OKR / strategic bets / tech-debt / glossary 段落。idempotent" },
+            { tool: "get_plan_context", purpose: "讀 plan-knowledge.md（內建 fallback），可選 section 過濾。session 開頭叫，後續每個 score 都吃到同一份方法論" },
+          ],
+        },
+        {
+          name: "Self-reinforcement — 跨時間自我強化",
+          items: [
+            { tool: "get_planning_history", purpose: "Trend 差：當下 vs ~7d / ~30d 的 top-10 churn + 平均分數。「有進步嗎？同一個點子永遠最頂？」" },
+            { tool: "get_decision_signature", purpose: "Chronic pattern：**ghost**（top-10 出現 >50% 但從沒 spec_generated）、**whiplash**（RICE 分數震盪 >50%）、**orphan OKR**（index 有但 top-10 沒對應 initiative）" },
+            { tool: "get_telemetry", purpose: "聚合 telemetry.jsonl（只記 name + duration + ok，**永遠不記**參數內容）：top tools、error rate、p50 / p95 / p99、dead surface" },
+          ],
+        },
+      ],
+    },
+    adapters: {
+      eyebrow: "來源 adapter",
+      title: "4 個來源、共用一組 tool",
+      sub: "用 <code>PLAN_SOURCE</code> 環境變數切。同樣的工具，四種後端。",
+      rows: [
+        { src: "markdown_local", auth: "不用", since: "0.1.0" },
+        { src: "linear", auth: "LINEAR_API_KEY (+ PLAN_PROJECT_KEY 選用)", since: "0.1.0" },
+        { src: "jira", auth: "JIRA_BASE_URL + JIRA_EMAIL + JIRA_API_TOKEN (+ PLAN_PROJECT_KEY 選用)", since: "0.1.0" },
+        { src: "notion", auth: "NOTION_TOKEN + database id 當 PLAN_PROJECT_KEY", since: "0.1.0" },
+      ],
+    },
+    workflows: {
+      eyebrow: "工作流程",
+      title: '四個 prompt 涵蓋 <span class="accent">~90%</span> 的真實用法',
+      sub: "一句話給 AI client，工具自動串。",
+      items: [
+        {
+          prompt: "我讀了 https://rightclickip.xyz/，capture 成 initiative、跑 analyze_initiative、score、再產一份 detailed spec draft 餵 mk-spec-master。",
+          chain: "add_initiative → analyze_initiative → add_initiative(overwrite=true) → score_initiative → generate_spec_draft(template='detailed') → mk-spec-master.parse_spec",
+        },
+        {
+          prompt: "每週一把我的 Linear triage backlog 用 RICE 排序，秀對上週、上月的 trend。",
+          chain: "rank_backlog(method='rice', limit=10) → get_planning_history(window_days=30)",
+        },
+        {
+          prompt: "對 IDEA-014 跑資深 PM 分析 SOP——我要 target users / competition / market signal / risks / MVP scope / out-of-scope / RICE 理由，分完才打分。",
+          chain: "get_plan_context → fetch_initiative('IDEA-014') → analyze_initiative('IDEA-014', framework='default') → add_initiative(overwrite=true) → score_initiative",
+        },
+        {
+          prompt: "把 Notion Triage view 的點子全部拉出來、RICE 排序、4 個工程師 20% buffer 包成 Q3 2026 roadmap，再告訴我 feature/tech-debt/strategic 比例健不健康。",
+          chain: "list_initiatives(status='triage') → rank_backlog → generate_roadmap(capacity_engineer_months=12, period='Q3 2026') → analyze_roadmap_balance",
+        },
+      ],
+    },
+    samples: {
+      eyebrow: "範例輸出",
+      title: "為什麼 analyze_initiative 存在 — 一個真實 case",
+      sub: "同樣的 URL、同樣的點子、兩次 pass。AI 預設會用兩段 blurb 亂猜 RICE，產出一個看起來很自信的 P0。analyze_initiative 強制走資深 PM SOP，數字變誠實。",
+      pass1Title: "Pass 1 — 沒有 analyze_initiative（AI 直接讀 URL 猜）",
+      pass1: `IDEA-001  ·  一鍵式 IP 授權平台（AI + 區塊鏈）
+  reach        500
+  impact         2
+  confidence   0.5
+  effort        12  person-weeks
+  out_of_scope  []  (none)
+  RICE         (500 × 2 × 0.5) / 12  =  41.7   →   P0
+
+很自信的 P0。看起來就是「下季衝」的 no-brainer。`,
+      pass2Title: "Pass 2 — 走完 analyze_initiative（資深 PM SOP）",
+      pass2: `IDEA-002  ·  RightClick — 一鍵式 IP 授權平台（AI + 區塊鏈）
+  reach        250                    ← 縮到「初期目標地區（新加坡 + 美西社群）
+                                          的季活躍用戶」，不是 raw 可觸及市場
+  impact         2                    ← 不變
+  confidence   0.4                    ← 下調：logo wall 無從查證、AI-contract
+                                          法律狀態未驗、雙邊冷啟動未證、無 GMV
+  effort        18  person-weeks      ← 上調：錢包 3w + AI templates 4w
+                                          + contracts/NFT 3w + marketplace 3w
+                                          + 律師審 + 安全 3w + 後台/觀測 2w
+  out_of_scope  8 項明列              ← fiat rails、cross-chain、衍生自動分潤(v2)
+                                          多司法管轄、DRM、PRO 集管、影音、SSO
+  RICE         (250 × 2 × 0.4) / 18  =  11.1   →   P1`,
+      deltaCaption: "同樣的 URL、同樣的點子，3.8× 跌幅、P0 → P1。差別就是「下季衝」vs「先驗證」。analyze_initiative 是讓你不用拉資深 PM 進會議就能達到的 SOP。",
+    },
+  },
+
   cta: {
     quickStart: "快速開始 →",
     readDocs: "看完整文件",
@@ -312,9 +468,10 @@ _Drift: 2 drifted, 0 stranded, 5 without ac_hash._
 
   common: {
     install: {
-      titleHub: "把兩支都丟進你的 MCP client config",
+      titleHub: "把三支都丟進你的 MCP client config",
       titleQa: "加進 MCP client config",
       titleSpec: "加進 MCP client config",
+      titlePlan: "加進 MCP client config",
       explain: "重啟 client，然後就用你平常跟 AI 對話的方式講就好。",
     },
     status: {

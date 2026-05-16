@@ -5,6 +5,7 @@ const en: Translation = {
     family: "Family",
     qa: "QA Master",
     spec: "Spec Master",
+    plan: "Plan Master",
     github: "GitHub",
   },
   footer: {
@@ -23,8 +24,8 @@ const en: Translation = {
     },
     members: {
       eyebrow: "Current members",
-      title: 'Two MCPs. <span class="accent">One loop.</span>',
-      sub: "mk-qa-master runs the tests. mk-spec-master tracks what's tested. Together they form the spec → test → coverage → coach loop — composable in any MCP client, no MCP-to-MCP RPC required.",
+      title: 'Three MCPs. <span class="accent">One pipeline.</span>',
+      sub: "mk-plan-master prioritizes the ideas. mk-spec-master turns specs into scenarios and tracks coverage. mk-qa-master runs the tests. Together they form the idea → plan → spec → test → coverage → coach loop — composable in any MCP client, no MCP-to-MCP RPC required.",
       deepDive: "Deep dive →",
     },
     future: {
@@ -35,10 +36,11 @@ const en: Translation = {
     },
     loop: {
       eyebrow: "The loop",
-      title: 'Specs → Tests → Coverage → <span class="accent">Coach</span>',
-      sub: "Each MCP owns one segment. The AI client chains them in any session. The loop never runs in isolation — every step feeds the next.",
+      title: 'Specs → Code → Tests → Coverage → <span class="accent">Coach</span>',
+      sub: "Each MCP owns one segment. The AI client chains them. The middle 'Code' step deliberately lives in your IDE (Claude Code / Cursor / Copilot) — the family doesn't rewrite that layer. Read it as TDD: tests are the executable form of the spec, and the IDE flips them red → green.",
       steps: [
         { name: "Specs", owner: "spec-master", blurb: "Linear / JIRA / Notion / Figma / GitHub Issues / Markdown" },
+        { name: "Code", owner: "your IDE", blurb: "Claude Code · Cursor · Copilot — AI writes app code against red tests. The family deliberately doesn't touch this layer." },
         { name: "Tests", owner: "qa-master", blurb: "pytest / Jest / Cypress / Go test / Maestro · web + mobile" },
         { name: "Coverage", owner: "spec-master", blurb: "spec ↔ test matrix · drift detection · auto-link via @spec tags" },
         { name: "Coach", owner: "both", blurb: "optimization plan · spec-quality grader · MCP usage telemetry" },
@@ -50,8 +52,8 @@ const en: Translation = {
     },
     install: {
       eyebrow: "Install",
-      title: 'Drop both into your <span class="accent">MCP client config</span>',
-      sub: "One JSON block. The AI client chains them automatically.",
+      title: 'Drop all three into your <span class="accent">MCP client config</span>',
+      sub: "One JSON block. The AI client chains them automatically: idea → plan → spec → test.",
     },
   },
 
@@ -300,6 +302,165 @@ _Drift: 2 drifted, 0 stranded, 5 without ac_hash._
     },
   },
 
+  plan: {
+    hero: {
+      eyebrow: "Member 3 · Planning side of the loop",
+      title: 'Ideas in.<br/><span class="accent">Prioritized plans out.</span>',
+      altName: "AI 規劃大師 · MK PLAN MASTER",
+      sub: "mk-plan-master reads ideas from <strong>Markdown / Linear / JIRA / Notion</strong>, runs idea triage, scores with RICE or Impact-Effort, and emits a spec draft shaped to drop straight into <code>mk-spec-master.parse_spec</code>. <strong>analyze_initiative</strong> is the core — it forces the AI through a senior-PM analysis SOP before scoring, so you don't get a confident-looking RICE built from a two-paragraph blurb. Decision history + signature + telemetry built in: mk-spec-master's v0.4 self-reinforcement pattern, applied one step upstream.",
+    },
+    why: {
+      eyebrow: "Why this MCP exists",
+      title: "Close the upstream gap in the Idea → Plan → Spec → Code → Test loop",
+      sub: "mk-spec-master and mk-qa-master already cover the right half. The upstream piece — turning 30–200 raw ideas (chat snippets, customer calls, URLs, gut hunches) into a prioritized quarterly roadmap and emitting a spec draft — is the gap nobody built MCP-native. mk-plan-master closes it, and generate_spec_draft's output drops verbatim into mk-spec-master.parse_spec — no manual reformat, no copy-paste fragility.",
+    },
+    notFor: {
+      eyebrow: "Scope",
+      title: "What this is <em>not</em>",
+      sub: "mk-plan-master sits between your idea source and your spec layer. It's not a web crawler, code writer, LLM, or SaaS UI.",
+      rows: [
+        { not: "A web crawler", instead: "Your AI client summarizes via WebFetch / chat; add_initiative just writes the markdown" },
+        { not: "A code writer", instead: "spec_draft → mk-spec-master → code lives in your IDE (Claude Code / Cursor / Copilot)" },
+        { not: "An LLM", instead: "Reasoning lives in your AI client (Claude / Cursor / Codex / Gemini). analyze_initiative only scaffolds the prompt — it doesn't call an LLM" },
+        { not: "A Productboard / Aha! replacement UI", instead: "MCP-native: lives where the AI lives. Reads your existing Linear / JIRA / Notion — no migration" },
+        { not: "A spec editor", instead: "mk-spec-master + your existing Linear / JIRA / Notion / Markdown" },
+      ],
+    },
+    tools: {
+      eyebrow: "Tool surface",
+      title: '15 tools across <span class="accent">9 roles</span>',
+      sub: "Grouped by role. Each group is one layer in the idea → plan → spec → memory loop.",
+      groups: [
+        {
+          name: "Meta — orientation",
+          items: [{ tool: "get_plan_source_info", purpose: "Active adapter + all available + version. Call this first so the AI knows whether to expect markdown / Linear / JIRA / Notion semantics." }],
+        },
+        {
+          name: "Discovery — find + load ideas",
+          items: [
+            { tool: "list_initiatives", purpose: "Filter by status / label / limit. Linear: triage / backlog / unstarted; JIRA: To Do; Notion: Triage / Backlog / Idea." },
+            { tool: "fetch_initiative", purpose: "Pull one initiative by id. raw_metadata carries RICE inputs (reach / impact / confidence / effort / okr)." },
+          ],
+        },
+        {
+          name: "Capture — chat / WebFetch handoff",
+          items: [
+            { tool: "add_initiative", purpose: "Persist an idea your AI client already gathered via WebFetch / chat / call notes into initiatives/<id>.md. **The family does NOT crawl** — you summarize, this tool writes. Auto-generates IDEA-NNN." },
+          ],
+        },
+        {
+          name: "Analysis — the senior-PM SOP",
+          items: [
+            { tool: "analyze_initiative", purpose: "**The core meta-tool**. Forces a senior-PM analysis SOP — target users / competition / market signal / risks / MVP scope / out-of-scope / RICE rationale. Three frameworks: default (7 sections) / lite (4) / lean_canvas (9 blocks). Doesn't call an LLM — scaffolds the prompt so the AI doesn't shortcut into a shallow read." },
+          ],
+        },
+        {
+          name: "Scoring — prioritize the backlog",
+          items: [
+            { tool: "score_initiative", purpose: "Score one initiative with RICE or Impact-Effort. Tier thresholds: P0 > 25, P1 10..25, P2 3..10, P3 < 3. Appends a scored decision to index.json." },
+            { tool: "rank_backlog", purpose: "Score the whole backlog, return top-N descending. **Auto-archives a snapshot** (debounced 5 min) so get_planning_history / get_decision_signature can compute trend deltas." },
+          ],
+        },
+        {
+          name: "Bridge — the family lock-in",
+          items: [
+            { tool: "generate_spec_draft", purpose: "**The family-bridge tool**. Markdown spec draft shaped so mk-spec-master.parse_spec(raw_text=...) ingests it verbatim — no manual editing. Three templates: default / lite / detailed." },
+          ],
+        },
+        {
+          name: "Roadmap — quarterly planning",
+          items: [
+            { tool: "generate_roadmap", purpose: "Pack the ranked backlog into a quarterly markdown roadmap, respecting an engineering-capacity envelope (engineer-months × 4 person-weeks) minus a buffer (default 20%). Greedy score-per-effort packer." },
+            { tool: "analyze_roadmap_balance", purpose: "Classify top-N into feature / tech_debt / strategic / unlabeled buckets, surface ratio + score-share + heuristic advisory. \"Is the roadmap balanced?\" / \"Are we starving tech debt?\"" },
+          ],
+        },
+        {
+          name: "Knowledge — methodology",
+          items: [
+            { tool: "init_plan_knowledge", purpose: "Create plan-knowledge.md from a starter template — RICE / WSJF / Impact-Effort / OKR mapping / INVEST / personas + TODO sections for active OKRs / strategic bets / tech-debt / glossary. Idempotent." },
+            { tool: "get_plan_context", purpose: "Read plan-knowledge.md (built-in fallback). Optional section filter. Call near session start so the same methodology + glossary colours every score that follows." },
+          ],
+        },
+        {
+          name: "Self-reinforcement — longitudinal view",
+          items: [
+            { tool: "get_planning_history", purpose: "Trend deltas (current vs ~7d / ~30d) for top-10 snapshots. Surfaces churn + average score. \"Are we improving?\" / \"Is the same idea always at the top?\"" },
+            { tool: "get_decision_signature", purpose: "Chronic patterns: **ghost initiatives** (top-10 >50% but never spec_generated), **score whiplash** (RICE swings >50%), **orphan OKRs** (in index, zero top-10 initiatives)." },
+            { tool: "get_telemetry", purpose: "Aggregates telemetry.jsonl (name + duration + ok only — **argument values never logged**). Top tools, error rates, p50 / p95 / p99, dead surface." },
+          ],
+        },
+      ],
+    },
+    adapters: {
+      eyebrow: "Source adapters",
+      title: "4 sources, one tool surface",
+      sub: "Switch via the <code>PLAN_SOURCE</code> env var. Same tools, four different backends.",
+      rows: [
+        { src: "markdown_local", auth: "none", since: "0.1.0" },
+        { src: "linear", auth: "LINEAR_API_KEY (+ optional PLAN_PROJECT_KEY)", since: "0.1.0" },
+        { src: "jira", auth: "JIRA_BASE_URL + JIRA_EMAIL + JIRA_API_TOKEN (+ optional PLAN_PROJECT_KEY)", since: "0.1.0" },
+        { src: "notion", auth: "NOTION_TOKEN + database id as PLAN_PROJECT_KEY", since: "0.1.0" },
+      ],
+    },
+    workflows: {
+      eyebrow: "Workflows",
+      title: 'Four prompts cover <span class="accent">~90%</span> of real use',
+      sub: "One sentence to the AI client; the tools chain automatically.",
+      items: [
+        {
+          prompt: "I read https://rightclickip.xyz/ — capture it as an initiative, run analyze_initiative on it, score it, and produce a detailed spec draft I can hand to mk-spec-master.",
+          chain: "add_initiative → analyze_initiative → add_initiative(overwrite=true) → score_initiative → generate_spec_draft(template='detailed') → mk-spec-master.parse_spec",
+        },
+        {
+          prompt: "Every Monday, rank my Linear triage backlog with RICE and show me the trend vs last week and last month.",
+          chain: "rank_backlog(method='rice', limit=10) → get_planning_history(window_days=30)",
+        },
+        {
+          prompt: "Apply the senior-PM analysis SOP to IDEA-014 — I want target users, competition, market signal, risks, MVP scope, out-of-scope, and RICE rationale before I score it.",
+          chain: "get_plan_context → fetch_initiative('IDEA-014') → analyze_initiative('IDEA-014', framework='default') → add_initiative(overwrite=true) → score_initiative",
+        },
+        {
+          prompt: "Pull every Notion idea in the Triage view, rank them with RICE, then pack a Q3 2026 roadmap assuming 4 engineers and 20% buffer. Tell me if the feature/tech-debt/strategic mix looks healthy.",
+          chain: "list_initiatives(status='triage') → rank_backlog → generate_roadmap(capacity_engineer_months=12, period='Q3 2026') → analyze_roadmap_balance",
+        },
+      ],
+    },
+    samples: {
+      eyebrow: "Sample output",
+      title: "Why analyze_initiative exists — a real case",
+      sub: "Same URL, same idea, two passes. By default an AI client shortcuts into a shallow read and emits a confident-looking P0. analyze_initiative forces the senior-PM SOP first; the numbers become honest.",
+      pass1Title: "Pass 1 — without analyze_initiative (AI guesses from the URL)",
+      pass1: `IDEA-001  ·  One-click IP licensing platform (AI + blockchain)
+  reach        500
+  impact         2
+  confidence   0.5
+  effort        12  person-weeks
+  out_of_scope  []  (none)
+  RICE         (500 × 2 × 0.5) / 12  =  41.7   →   P0
+
+A confident P0. Looks like a no-brainer "ship next quarter."`,
+      pass2Title: "Pass 2 — with analyze_initiative (senior-PM SOP)",
+      pass2: `IDEA-002  ·  RightClick — One-click IP licensing platform (AI + blockchain)
+  reach        250                    ← scoped to "active users per quarter in
+                                          initial regions (Singapore + US-west
+                                          social)", not raw addressable market
+  impact         2                    ← unchanged
+  confidence   0.4                    ← dropped: logo wall unverifiable,
+                                          AI-contract legal status untested,
+                                          two-sided cold-start unproven, no GMV
+  effort        18  person-weeks      ← raised: wallet 3w + AI templates 4w
+                                          + contracts/NFT 3w + marketplace 3w
+                                          + lawyer review + security 3w
+                                          + backoffice/observability 2w
+  out_of_scope  8 explicit items      ← fiat rails, cross-chain bridging,
+                                          derivative auto-royalties (v2), multi-
+                                          jurisdiction custom legal, DRM, PRO
+                                          collective rights, video/animation, SSO
+  RICE         (250 × 2 × 0.4) / 18  =  11.1   →   P1`,
+      deltaCaption: "Same URL, same idea — 3.8× drop, P0 → P1. The difference between \"ship next quarter\" and \"validate first.\" analyze_initiative is the SOP that gets you there without needing a senior PM in the room.",
+    },
+  },
+
   cta: {
     quickStart: "Quick Start →",
     readDocs: "Read the docs",
@@ -312,9 +473,10 @@ _Drift: 2 drifted, 0 stranded, 5 without ac_hash._
 
   common: {
     install: {
-      titleHub: "Drop both into your MCP client config",
+      titleHub: "Drop all three into your MCP client config",
       titleQa: "Add to your MCP client config",
       titleSpec: "Add to your MCP client config",
+      titlePlan: "Add to your MCP client config",
       explain: "Restart your client, then talk to the AI like you always do.",
     },
     status: {

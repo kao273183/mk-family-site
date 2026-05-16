@@ -52,13 +52,16 @@ const description = lang === "en"
         <p class="section-sub">{tr.hub.loop.sub}</p>
       </div>
       <div class="pipeline">
-        {tr.hub.loop.steps.map((s) => (
-          <div class="pipe-step">
-            <div class="pipe-name">{s.name}</div>
-            <div class="pipe-owner">{s.owner}</div>
-            <div class="pipe-blurb">{s.blurb}</div>
-          </div>
-        ))}
+        {tr.hub.loop.steps.map((s) => {
+          const isExternal = s.owner === "your IDE" || s.owner === "你的 IDE";
+          return (
+            <div class={isExternal ? "pipe-step pipe-step--external" : "pipe-step"}>
+              <div class="pipe-name">{s.name}</div>
+              <div class="pipe-owner">{s.owner}</div>
+              <div class="pipe-blurb">{s.blurb}</div>
+            </div>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -71,7 +74,7 @@ const description = lang === "en"
         <h2 class="section-title" set:html={tr.hub.members.title}></h2>
         <p class="section-sub">{tr.hub.members.sub}</p>
       </div>
-      <div class="grid-2">
+      <div class="grid-3">
         {family.members.map((m) => {
           const role = lang === "zh-tw" ? m.role_zh : m.role;
           const tagline = lang === "zh-tw" ? m.tagline_zh : m.tagline;
@@ -130,12 +133,12 @@ const description = lang === "en"
       </div>
       <pre>{`{
   "mcpServers": {
-    "mk-qa-master": {
+    "mk-plan-master": {
       "command": "uvx",
-      "args": ["mk-qa-master"],
+      "args": ["mk-plan-master"],
       "env": {
-        "QA_RUNNER": "pytest",
-        "QA_PROJECT_ROOT": "/path/to/your/project"
+        "PLAN_SOURCE": "markdown_local",
+        "PLAN_PROJECT_ROOT": "/path/to/your/project"
       }
     },
     "mk-spec-master": {
@@ -144,6 +147,14 @@ const description = lang === "en"
       "env": {
         "SPEC_SOURCE": "markdown_local",
         "SPEC_PROJECT_ROOT": "/path/to/your/project"
+      }
+    },
+    "mk-qa-master": {
+      "command": "uvx",
+      "args": ["mk-qa-master"],
+      "env": {
+        "QA_RUNNER": "pytest",
+        "QA_PROJECT_ROOT": "/path/to/your/project"
       }
     }
   }

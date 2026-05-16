@@ -9,6 +9,7 @@ export interface Translation {
     family: string;
     qa: string;
     spec: string;
+    plan: string;
     github: string;
   };
   footer: {
@@ -142,6 +143,55 @@ export interface Translation {
     };
   };
 
+  // plan-master deep
+  plan: {
+    hero: {
+      eyebrow: string;
+      title: string;
+      altName: string;
+      sub: string;
+    };
+    why: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+    };
+    notFor: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+      rows: { not: string; instead: string }[];
+    };
+    tools: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+      groups: { name: string; items: { tool: string; purpose: string }[] }[];
+    };
+    adapters: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+      rows: { src: string; auth: string; since: string }[];
+    };
+    workflows: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+      items: { prompt: string; chain: string }[];
+    };
+    samples: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+      pass1Title: string;
+      pass1: string;
+      pass2Title: string;
+      pass2: string;
+      deltaCaption: string;
+    };
+  };
+
   // Shared CTAs
   cta: {
     quickStart: string;
@@ -159,6 +209,7 @@ export interface Translation {
       titleHub: string;
       titleQa: string;
       titleSpec: string;
+      titlePlan: string;
       explain: string;
     };
     status: {

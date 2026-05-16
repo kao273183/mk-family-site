@@ -454,18 +454,26 @@ const htmlLang = lang === "zh-tw" ? "zh-Hant" : "en";
     /* Pipeline */
     .pipeline {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
       align-items: stretch;
       margin: 0 auto;
-      max-width: 1000px;
+      max-width: 1140px;
     }
     .pipe-step {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 24px 20px;
+      padding: 22px 18px;
       position: relative;
+    }
+    .pipe-step.pipe-step--external {
+      background: transparent;
+      border-style: dashed;
+      border-color: var(--dim);
+    }
+    .pipe-step.pipe-step--external .pipe-owner {
+      color: var(--muted);
     }
     .pipe-step:not(:last-child)::after {
       content: "→";
@@ -532,9 +540,12 @@ const htmlLang = lang === "zh-tw" ? "zh-Hant" : "en";
       font-family: var(--mono); font-size: 11px; color: var(--dim);
     }
 
-    @media (max-width: 880px) {
-      .pipeline { grid-template-columns: 1fr; }
+    @media (max-width: 1024px) {
+      .pipeline { grid-template-columns: 1fr; max-width: 560px; }
       .pipe-step:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -22px; transform: translateX(-50%); }
+    }
+
+    @media (max-width: 880px) {
       .tools-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 760px) {
@@ -555,8 +566,9 @@ const htmlLang = lang === "zh-tw" ? "zh-Hant" : "en";
       </a>
       <div class="nav-links">
         <a href={localePath(lang, "/")}>{tr.nav.family}</a>
-        <a href={localePath(lang, "qa-master")}>{tr.nav.qa}</a>
+        <a href={localePath(lang, "plan-master")}>{tr.nav.plan}</a>
         <a href={localePath(lang, "spec-master")}>{tr.nav.spec}</a>
+        <a href={localePath(lang, "qa-master")}>{tr.nav.qa}</a>
       </div>
       <div class="nav-actions">
         <a class="lang-toggle" href={oppositeLangHref}>
@@ -573,8 +585,9 @@ const htmlLang = lang === "zh-tw" ? "zh-Hant" : "en";
     <div class="container">
       <div class="links">
         <a href={localePath(lang, "/")}>{tr.nav.family}</a>
-        <a href={localePath(lang, "qa-master")}>mk-qa-master</a>
+        <a href={localePath(lang, "plan-master")}>mk-plan-master</a>
         <a href={localePath(lang, "spec-master")}>mk-spec-master</a>
+        <a href={localePath(lang, "qa-master")}>mk-qa-master</a>
         <a href="https://github.com/kao273183">GitHub</a>
         <a href="https://www.buymeacoffee.com/minikao" target="_blank" rel="noopener" style="color: #FFDD00;">{tr.footer.support}</a>
       </div>

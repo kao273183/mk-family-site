@@ -40,6 +40,27 @@
         "auto_link_tests — scan @spec: tags from Python / JS / TS / Go test files",
         "v0.4 self-reinforcement: history trend, chronic-drift signature, tool-usage telemetry"
       ]
+    },
+    {
+      "slug": "plan-master",
+      "name": "mk-plan-master",
+      "displayName": "MK Plan Master",
+      "altName": "AI 規劃大師",
+      "tagline": "Ideas in, prioritized plans out. Spec drafts that hand straight to mk-spec-master.",
+      "tagline_zh": "點子進,排序好的計劃出。Spec draft 直接遞給 mk-spec-master。",
+      "role": "Planning side of the loop",
+      "role_zh": "迴圈的規劃端",
+      "status": "alpha · v0.1.0",
+      "github": "https://github.com/kao273183/mk-plan-master",
+      "pypi": "https://pypi.org/project/mk-plan-master/",
+      "tools": 15,
+      "highlights": [
+        "4 adapters: markdown_local + Linear + JIRA + Notion",
+        "analyze_initiative — senior-PM analysis SOP (default / lite / lean_canvas frameworks)",
+        "generate_spec_draft hands off to mk-spec-master.parse_spec — verified end-to-end",
+        "RICE + Impact-Effort scoring with file-based decision index",
+        "Self-reinforcement built in: history + decision signature + telemetry"
+      ]
     }
   ],
   "future": [
