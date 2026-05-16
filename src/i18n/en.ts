@@ -554,7 +554,7 @@ _Drift: 2 drifted, 0 stranded, 5 without ac_hash._
       sub: "One sentence to the AI client; the tools chain automatically.",
       items: [
         {
-          prompt: "I read https://rightclickip.xyz/ — capture it as an initiative, run analyze_initiative on it, score it, and produce a detailed spec draft I can hand to mk-spec-master.",
+          prompt: "I drafted a feature idea from a customer call — capture it as an initiative, run analyze_initiative on it, score it, and produce a detailed spec draft I can hand to mk-spec-master.",
           chain: "add_initiative → analyze_initiative → add_initiative(overwrite=true) → score_initiative → generate_spec_draft(template='detailed') → mk-spec-master.parse_spec",
         },
         {
@@ -574,9 +574,9 @@ _Drift: 2 drifted, 0 stranded, 5 without ac_hash._
     samples: {
       eyebrow: "Sample output",
       title: "Why analyze_initiative exists — a real case",
-      sub: "Same URL, same idea, two passes. By default an AI client shortcuts into a shallow read and emits a confident-looking P0. analyze_initiative forces the senior-PM SOP first; the numbers become honest.",
-      pass1Title: "Pass 1 — without analyze_initiative (AI guesses from the URL)",
-      pass1: `IDEA-001  ·  One-click IP licensing platform (AI + blockchain)
+      sub: "Same idea, two passes. By default an AI client shortcuts into a shallow read and emits a confident-looking P0. analyze_initiative forces the senior-PM SOP first; the numbers become honest.",
+      pass1Title: "Pass 1 — without analyze_initiative (AI guesses)",
+      pass1: `IDEA-001  ·  Self-serve onboarding wizard
   reach        500
   impact         2
   confidence   0.5
@@ -586,24 +586,24 @@ _Drift: 2 drifted, 0 stranded, 5 without ac_hash._
 
 A confident P0. Looks like a no-brainer "ship next quarter."`,
       pass2Title: "Pass 2 — with analyze_initiative (senior-PM SOP)",
-      pass2: `IDEA-002  ·  RightClick — One-click IP licensing platform (AI + blockchain)
-  reach        250                    ← scoped to "active users per quarter in
-                                          initial regions (Singapore + US-west
-                                          social)", not raw addressable market
+      pass2: `IDEA-002  ·  Self-serve onboarding wizard (after deep analysis)
+  reach        250                    ← scoped to "new paid SMB signups per
+                                          quarter", not the raw monthly visitor
+                                          count
   impact         2                    ← unchanged
-  confidence   0.4                    ← dropped: logo wall unverifiable,
-                                          AI-contract legal status untested,
-                                          two-sided cold-start unproven, no GMV
-  effort        18  person-weeks      ← raised: wallet 3w + AI templates 4w
-                                          + contracts/NFT 3w + marketplace 3w
-                                          + lawyer review + security 3w
-                                          + backoffice/observability 2w
-  out_of_scope  8 explicit items      ← fiat rails, cross-chain bridging,
-                                          derivative auto-royalties (v2), multi-
-                                          jurisdiction custom legal, DRM, PRO
-                                          collective rights, video/animation, SSO
+  confidence   0.4                    ← dropped: activation lift assumed from
+                                          competitor blog posts, not our own
+                                          funnel cohort; no held-out test yet
+  effort        18  person-weeks      ← raised: wizard UI 3w + AI step generator
+                                          4w + analytics & variants 3w + i18n 2w
+                                          + accessibility audit 2w + observability
+                                          + feature-flag rollout 2w + legal review 2w
+  out_of_scope  8 explicit items      ← enterprise SSO, custom branding, multi-
+                                          tenant theming, native mobile onboarding,
+                                          import from a competitor, video
+                                          walkthroughs, role-based provisioning, SCIM
   RICE         (250 × 2 × 0.4) / 18  =  11.1   →   P1`,
-      deltaCaption: "Same URL, same idea — 3.8× drop, P0 → P1. The difference between \"ship next quarter\" and \"validate first.\" analyze_initiative is the SOP that gets you there without needing a senior PM in the room.",
+      deltaCaption: "Same idea, two passes — 3.8× score drop, P0 → P1. The difference between \"ship next quarter\" and \"validate first.\" analyze_initiative is the SOP that gets you there without needing a senior PM in the room.",
     },
   },
 

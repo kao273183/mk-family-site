@@ -554,7 +554,7 @@ _Drift: 2 drifted, 0 stranded, 5 without ac_hash._
       sub: "一句話給 AI client，工具自動串。",
       items: [
         {
-          prompt: "我讀了 https://rightclickip.xyz/，capture 成 initiative、跑 analyze_initiative、score、再產一份 detailed spec draft 餵 mk-spec-master。",
+          prompt: "我從客戶 call 整理了一個 feature idea——capture 成 initiative、跑 analyze_initiative、score、再產一份 detailed spec draft 餵 mk-spec-master。",
           chain: "add_initiative → analyze_initiative → add_initiative(overwrite=true) → score_initiative → generate_spec_draft(template='detailed') → mk-spec-master.parse_spec",
         },
         {
@@ -574,31 +574,34 @@ _Drift: 2 drifted, 0 stranded, 5 without ac_hash._
     samples: {
       eyebrow: "範例輸出",
       title: "為什麼 analyze_initiative 存在 — 一個真實 case",
-      sub: "同樣的 URL、同樣的點子、兩次 pass。AI 預設會用兩段 blurb 亂猜 RICE，產出一個看起來很自信的 P0。analyze_initiative 強制走資深 PM SOP，數字變誠實。",
-      pass1Title: "Pass 1 — 沒有 analyze_initiative（AI 直接讀 URL 猜）",
-      pass1: `IDEA-001  ·  一鍵式 IP 授權平台（AI + 區塊鏈）
+      sub: "同一個 idea、兩次 pass。AI 預設會用兩段 blurb 亂猜 RICE，產出一個看起來很自信的 P0。analyze_initiative 強制走資深 PM SOP，數字變誠實。",
+      pass1Title: "Pass 1 — 沒有 analyze_initiative（AI 直接猜）",
+      pass1: `IDEA-001  ·  自助式新手引導精靈
   reach        500
   impact         2
   confidence   0.5
-  effort        12  person-weeks
-  out_of_scope  []  (none)
+  effort        12  人週
+  out_of_scope  []  （無）
   RICE         (500 × 2 × 0.5) / 12  =  41.7   →   P0
 
-很自信的 P0。看起來就是「下季衝」的 no-brainer。`,
+漂亮的 P0。看起來是「下季就 ship」的 no-brainer。`,
       pass2Title: "Pass 2 — 走完 analyze_initiative（資深 PM SOP）",
-      pass2: `IDEA-002  ·  RightClick — 一鍵式 IP 授權平台（AI + 區塊鏈）
-  reach        250                    ← 縮到「初期目標地區（新加坡 + 美西社群）
-                                          的季活躍用戶」，不是 raw 可觸及市場
+      pass2: `IDEA-002  ·  自助式新手引導精靈（深度分析後）
+  reach        250                    ← 收斂到「每季新增付費 SMB 註冊數」、
+                                          不是月活訪客總數
   impact         2                    ← 不變
-  confidence   0.4                    ← 下調：logo wall 無從查證、AI-contract
-                                          法律狀態未驗、雙邊冷啟動未證、無 GMV
-  effort        18  person-weeks      ← 上調：錢包 3w + AI templates 4w
-                                          + contracts/NFT 3w + marketplace 3w
-                                          + 律師審 + 安全 3w + 後台/觀測 2w
-  out_of_scope  8 項明列              ← fiat rails、cross-chain、衍生自動分潤(v2)
-                                          多司法管轄、DRM、PRO 集管、影音、SSO
+  confidence   0.4                    ← 下調：activation lift 是抄競品 blog 的
+                                          假設，沒做自家 funnel cohort、
+                                          沒有 holdout 實測
+  effort        18  人週               ← 上調：wizard UI 3w + AI 步驟產生器 4w
+                                          + analytics & A/B 3w + 多語 2w
+                                          + accessibility audit 2w + observability
+                                          + feature flag rollout 2w + 法務 2w
+  out_of_scope  8 項明列              ← 企業 SSO、品牌客製、multi-tenant theming、
+                                          手機原生 onboarding、從競品 import 設定、
+                                          影片導覽、角色權限自動分派、SCIM
   RICE         (250 × 2 × 0.4) / 18  =  11.1   →   P1`,
-      deltaCaption: "同樣的 URL、同樣的點子，3.8× 跌幅、P0 → P1。差別就是「下季衝」vs「先驗證」。analyze_initiative 是讓你不用拉資深 PM 進會議就能達到的 SOP。",
+      deltaCaption: "同一個 idea、兩種深度——score 掉 3.8 倍、P0 → P1。「下季就 ship」跟「先驗證」的差別。analyze_initiative 就是讓 AI 走完資深 PM SOP 的那條 SOP，不用真的請一個資深 PM 進會議。",
     },
   },
 
