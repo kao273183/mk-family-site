@@ -36,9 +36,10 @@ const en: Translation = {
     },
     loop: {
       eyebrow: "The loop",
-      title: 'Specs → Code → Tests → Coverage → <span class="accent">Coach</span>',
-      sub: "Each MCP owns one segment. The AI client chains them. The middle 'Code' step deliberately lives in your IDE (Claude Code / Cursor / Copilot) — the family doesn't rewrite that layer. Read it as TDD: tests are the executable form of the spec, and the IDE flips them red → green.",
+      title: 'Plan → Specs → Code → Tests → Coverage → <span class="accent">Coach</span>',
+      sub: "Three MCPs, one segment each, chained by the AI client. The middle 'Code' step deliberately lives in your IDE (Claude Code / Cursor / Copilot) — the family doesn't rewrite that layer. Read it as TDD: tests are the executable form of the spec, the IDE flips them red → green, then the coach loops you back to plan-master for the next idea.",
       steps: [
+        { name: "Plan", owner: "plan-master", blurb: "Linear / JIRA / Notion / Markdown · RICE ranking + senior-PM analysis + spec-draft bridge" },
         { name: "Specs", owner: "spec-master", blurb: "Linear / JIRA / Notion / Figma / GitHub Issues / Markdown" },
         { name: "Code", owner: "your IDE", blurb: "Claude Code · Cursor · Copilot — AI writes app code against red tests. The family deliberately doesn't touch this layer." },
         { name: "Tests", owner: "qa-master", blurb: "pytest / Jest / Cypress / Go test / Maestro · web + mobile" },

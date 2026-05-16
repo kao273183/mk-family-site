@@ -454,7 +454,7 @@ const htmlLang = lang === "zh-tw" ? "zh-Hant" : "en";
     /* Pipeline */
     .pipeline {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 14px;
       align-items: stretch;
       margin: 0 auto;
@@ -540,6 +540,9 @@ const htmlLang = lang === "zh-tw" ? "zh-Hant" : "en";
       font-family: var(--mono); font-size: 11px; color: var(--dim);
     }
 
+    @media (max-width: 1180px) {
+      .section-title { font-size: 36px; }
+    }
     @media (max-width: 1024px) {
       .pipeline { grid-template-columns: 1fr; max-width: 560px; }
       .pipe-step:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -22px; transform: translateX(-50%); }
@@ -549,11 +552,30 @@ const htmlLang = lang === "zh-tw" ? "zh-Hant" : "en";
       .tools-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 760px) {
-      .hero-title { font-size: 44px; }
-      .section-title { font-size: 32px; }
+      .hero-title { font-size: 40px; }
+      .hero-sub { font-size: 16px; }
+      .section-title { font-size: 28px; line-height: 1.2; }
+      .section-head { margin-bottom: 40px; }
+      section.block { padding: 64px 0; }
       .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
       .layer-row { grid-template-columns: 1fr; gap: 8px; }
+      .container { padding: 0 20px; }
+      nav.top .container { height: 56px; }
+      .nav-links { gap: 14px; }
+      .nav-links a { font-size: 12px; }
+      .brand { font-size: 12px; }
+      .brand img { width: 20px; height: 20px; }
+      .lang-toggle { padding: 5px 8px; font-size: 11px; }
+      .pipe-step { padding: 18px 16px; }
+      .pipe-step .pipe-name { font-size: 20px; }
+      .card { padding: 24px; }
+    }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 32px; }
+      .section-title { font-size: 24px; }
+      .nav-links { gap: 10px; }
+      .nav-links a { font-size: 11px; }
+      .brand .dot { display: none; }
     }
   </style>
 </head>

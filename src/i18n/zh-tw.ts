@@ -36,9 +36,10 @@ const zhTw: Translation = {
     },
     loop: {
       eyebrow: "迴圈",
-      title: '規格 → 程式碼 → 測試 → 覆蓋率 → <span class="accent">教練</span>',
-      sub: "每支 MCP 負責一段。AI client 自動串接。中間的「寫程式碼」一格故意交給你的 IDE（Claude Code / Cursor / Copilot）——家族不碰這層、不重造 IDE 的輪子。TDD 框架下，測試是規格的可執行版本，你的 IDE 把紅燈一條條變綠。",
+      title: '計劃 → 規格 → 程式碼 → 測試 → 覆蓋率 → <span class="accent">教練</span>',
+      sub: "三支 MCP 各負責一段，AI client 自動串接。中間的「寫程式碼」一格故意交給你的 IDE（Claude Code / Cursor / Copilot）——家族不碰這層、不重造 IDE 的輪子。TDD 框架下，測試是規格的可執行版本，你的 IDE 把紅燈一條條變綠。然後從教練回到計劃、看下一個 idea。",
       steps: [
+        { name: "計劃", owner: "plan-master", blurb: "Linear / JIRA / Notion / Markdown · RICE 排序 + 資深 PM 分析 + spec-draft bridge" },
         { name: "規格", owner: "spec-master", blurb: "Linear / JIRA / Notion / Figma / GitHub Issues / Markdown" },
         { name: "程式碼", owner: "你的 IDE", blurb: "Claude Code · Cursor · Copilot——AI 對著紅燈測試寫 app 程式碼，家族故意不碰這層" },
         { name: "測試", owner: "qa-master", blurb: "pytest / Jest / Cypress / Go test / Maestro · web + mobile" },
