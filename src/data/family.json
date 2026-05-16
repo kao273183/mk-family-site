@@ -1,0 +1,62 @@
+{
+  "members": [
+    {
+      "slug": "qa-master",
+      "name": "mk-qa-master",
+      "displayName": "MK QA Master",
+      "altName": "AI 測試大師",
+      "tagline": "Run + analyze + advise — across pytest / Jest / Cypress / Go / Maestro.",
+      "tagline_zh": "跨 pytest / Jest / Cypress / Go / Maestro 的執行 + 分析 + 顧問。",
+      "role": "Execution side of the loop",
+      "role_zh": "迴圈的執行端",
+      "status": "alpha · v0.5.1",
+      "github": "https://github.com/kao273183/mk-qa-master",
+      "pypi": "https://pypi.org/project/mk-qa-master/",
+      "tools": 16,
+      "highlights": [
+        "Cross-runner: pytest-playwright, Jest, Cypress, Go test, Maestro (iOS + Android + BlueStacks)",
+        "analyze_url / analyze_screen — DOM + mobile hierarchy probing",
+        "generate_test — runnable Playwright .py or Maestro .yaml, not # TODO stubs",
+        "get_optimization_plan — three-lens coach (suite / MCP / AI)"
+      ]
+    },
+    {
+      "slug": "spec-master",
+      "name": "mk-spec-master",
+      "displayName": "MK Spec Master",
+      "altName": "AI 規格大師",
+      "tagline": "Specs → scenarios → tests, with bidirectional spec ↔ test traceability.",
+      "tagline_zh": "規格 → 場景 → 測試,雙向 spec ↔ test 追蹤。",
+      "role": "Traceability side of the loop",
+      "role_zh": "迴圈的追蹤端",
+      "status": "alpha · v0.3.3",
+      "github": "https://github.com/kao273183/mk-spec-master",
+      "pypi": "https://pypi.org/project/mk-spec-master/",
+      "tools": 15,
+      "highlights": [
+        "6 spec sources: Markdown, GitHub Issues, Linear, JIRA, Notion, Figma",
+        "Spec-quality coach: vague-language + implementation-leak + unclear-role heuristics",
+        "Coverage matrix + drift report (ac_hash-based)",
+        "auto_link_tests — scan @spec: tags from Python / JS / TS / Go test files"
+      ]
+    }
+  ],
+  "future": [
+    {
+      "slug": "perf-master",
+      "name": "mk-perf-master",
+      "displayName": "MK Perf Master",
+      "tagline": "Performance audit MCP — Lighthouse / Core Web Vitals / bundle analyzer behind one coach.",
+      "tagline_zh": "效能審查 MCP —— Lighthouse / Core Web Vitals / bundle 分析包進一個 coach。",
+      "status": "in design"
+    },
+    {
+      "slug": "a11y-master",
+      "name": "mk-a11y-master",
+      "displayName": "MK A11y Master",
+      "tagline": "Accessibility audit MCP — axe-core / Pa11y / WCAG 2.2 with prioritized remediation.",
+      "tagline_zh": "無障礙審查 MCP —— axe-core / Pa11y / WCAG 2.2，附優先級修復計畫。",
+      "status": "in design"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base
+  title="mk-spec-master · AI 規格大師 — specs in, scenarios out"
+  description="MCP server bridging specs (Linear / JIRA / GitHub Issues / Notion / Figma / Markdown) to tests, with bidirectional traceability and a built-in spec-quality coach."
+>
+  <section class="hero">
+    <div class="container">
+      <img src="/assets/logo.png" alt="mk-spec-master" class="hero-logo" />
+      <span class="eyebrow">Member 2 · Traceability side of the loop</span>
+      <h1 class="hero-title">Specs in.<br/><span class="accent">Scenarios out.</span></h1>
+      <p class="hero-alt-name">AI 規格大師 · MK SPEC MASTER</p>
+      <p class="hero-sub">
+        mk-spec-master reads specs from <strong>Linear / JIRA / GitHub Issues /
+        Notion / Figma / Markdown</strong> and turns them into structured
+        scenarios you hand to any test runner. Keeps a live <strong>spec ↔
+        test</strong> coverage matrix and grades the specs themselves — the
+        differentiator vs Kiro / Spec Kit / Jama.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/kao273183/mk-spec-master">GitHub →</a>
+        <a class="btn btn-ghost" href="https://pypi.org/project/mk-spec-master/">PyPI</a>
+        <a class="btn btn-ghost" href="https://github.com/kao273183/mk-spec-master/blob/main/README.md">Read the docs</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">What it does</div>
+        <h2 class="section-title">15 tools · <span class="accent">6 adapters</span></h2>
+        <p class="section-sub">
+          The spec→test bridge nobody else builds in MCP-native, multi-source,
+          open-source form.
+        </p>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <div class="icon">⇄</div>
+          <h3>Multi-source adapters</h3>
+          <p>One <code>SPEC_SOURCE</code> env var picks the backend: <strong>markdown_local / github_issues / linear / jira / notion / figma</strong>. Same tool surface, six sources — no lock-in to a single ticket system.</p>
+        </div>
+        <div class="card">
+          <div class="icon">▦</div>
+          <h3>Coverage matrix + drift</h3>
+          <p><code>get_coverage_matrix</code> answers "which specs have no tests" in one call. <code>get_drift_report</code> compares stored <code>ac_hash</code> against the live spec to flag tests whose linked spec has moved.</p>
+        </div>
+        <div class="card">
+          <div class="icon">✦</div>
+          <h3>Spec-quality coach</h3>
+          <p>Heuristic findings on vague language, implementation-leak AC, unclear role refs. <code>get_optimization_plan</code> integrates coverage + quality + drift into one prioritized markdown plan — the moat vs Kiro / Spec Kit.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">Status</div>
+        <h2 class="section-title">v0.3.3 · <span class="accent">v0.3 milestone complete</span></h2>
+        <p class="section-sub">
+          Full tool surface, adapter setup, sample workflows, and PRD live in the README.
+        </p>
+      </div>
+      <div style="text-align: center;">
+        <a class="btn btn-primary" href="https://github.com/kao273183/mk-spec-master#readme">Read the full README →</a>
+        &nbsp;
+        <a class="btn btn-ghost" href="/qa-master">Sibling: mk-qa-master →</a>
+      </div>
+    </div>
+  </section>
+</Base>

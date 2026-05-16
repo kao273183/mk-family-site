@@ -1,0 +1,347 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonical?: string;
+}
+const { title, description, ogImage = "/assets/og-image.png", canonical } = Astro.props;
+const url = canonical ?? Astro.url.href;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#0B1628" />
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
+  <link rel="apple-touch-icon" href="/assets/logo.png" />
+  <link rel="canonical" href={url} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={url} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:locale" content="zh_TW" />
+  <meta property="og:locale:alternate" content="en_US" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style is:global>
+    :root {
+      --bg: #0B1628;
+      --bg-elev: #0E1A2D;
+      --bg-card: #111E33;
+      --bg-card-hover: #15243C;
+      --border: rgba(240, 237, 230, 0.08);
+      --border-strong: rgba(240, 237, 230, 0.16);
+      --text: #F0EDE6;
+      --muted: rgba(240, 237, 230, 0.55);
+      --dim: rgba(240, 237, 230, 0.32);
+      --accent: #D4A843;
+      --accent-2: #E8C36B;
+      --accent-glow: rgba(212, 168, 67, 0.22);
+      --gold-dim: rgba(212, 168, 67, 0.15);
+      --border-gold: rgba(212, 168, 67, 0.3);
+      --green: #6BB97A;
+      --yellow: #E8C36B;
+      --red: #D87568;
+      --mono: 'DM Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
+      --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      --serif: 'Noto Serif TC', Georgia, serif;
+      --radius: 12px;
+      --radius-lg: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% -10%, rgba(212, 168, 67, 0.10), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 90% 10%, rgba(212, 168, 67, 0.05), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+    /* Nav */
+    nav.top {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(11, 22, 40, 0.72);
+      border-bottom: 1px solid var(--border);
+    }
+    nav.top .container {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 62px;
+    }
+    .brand {
+      font-family: var(--mono);
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .brand img { width: 22px; height: 22px; border-radius: 6px; }
+    .brand .dot { color: var(--accent); }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+      transition: color 120ms;
+    }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-links a.active { color: var(--accent); }
+    .nav-actions { display: flex; gap: 14px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-family: var(--mono); font-size: 13px; font-weight: 500;
+      transition: all 120ms;
+      cursor: pointer; border: none;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0B1628;
+    }
+    .btn-primary:hover {
+      background: var(--accent-2);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .btn-sm { padding: 7px 13px; font-size: 12px; }
+
+    /* Sections */
+    section.block { padding: 100px 0; position: relative; }
+    .section-head { text-align: center; max-width: 720px; margin: 0 auto 64px; }
+    .section-eyebrow {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: 44px;
+      line-height: 1.15;
+      font-weight: 700;
+      margin: 0 0 18px;
+      letter-spacing: -0.01em;
+    }
+    .section-title .accent { color: var(--accent); font-style: italic; }
+    .section-sub {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+      margin: 0;
+    }
+    .grid-3 { display: grid; gap: 24px; grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { display: grid; gap: 24px; grid-template-columns: repeat(2, 1fr); }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: all 160ms;
+    }
+    .card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+    .card .icon {
+      font-family: var(--mono);
+      font-size: 22px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .card h3 {
+      font-family: var(--serif);
+      font-size: 22px;
+      line-height: 1.3;
+      margin: 0 0 12px;
+      font-weight: 700;
+    }
+    .card .role {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .card p { margin: 0 0 14px; color: var(--muted); line-height: 1.65; }
+    .card ul { margin: 14px 0 18px; padding-left: 18px; color: var(--muted); }
+    .card ul li { margin: 6px 0; line-height: 1.55; }
+    .card code {
+      font-family: var(--mono); font-size: 12px;
+      background: rgba(212, 168, 67, 0.08);
+      color: var(--accent-2);
+      padding: 2px 6px; border-radius: 4px;
+    }
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--gold-dim);
+      color: var(--accent-2);
+      border: 1px solid var(--border-gold);
+      letter-spacing: 0.08em;
+    }
+    .badge.muted {
+      background: rgba(240, 237, 230, 0.04);
+      color: var(--muted);
+      border-color: var(--border);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 80px 0 100px;
+      text-align: center;
+      position: relative;
+    }
+    .hero-logo {
+      width: 88px; height: 88px;
+      border-radius: 20px;
+      margin: 0 auto 20px;
+      display: block;
+    }
+    .eyebrow {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: 64px;
+      line-height: 1.05;
+      font-weight: 900;
+      margin: 0 0 16px;
+      letter-spacing: -0.02em;
+    }
+    .hero-title .accent { color: var(--accent); font-style: italic; }
+    .hero-alt-name {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      color: var(--dim);
+      margin: 0 0 22px;
+    }
+    .hero-sub {
+      font-size: 19px;
+      color: var(--muted);
+      max-width: 720px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .cta-row {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+      margin: 0 auto 60px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+    }
+    footer .container {
+      display: flex; flex-direction: column; align-items: center; gap: 22px;
+    }
+    footer .links { display: flex; gap: 22px; flex-wrap: wrap; justify-content: center; }
+    footer .links a {
+      font-family: var(--mono); font-size: 12px;
+      color: var(--muted);
+    }
+    footer .links a:hover { color: var(--accent); text-decoration: none; }
+    footer .meta {
+      font-family: var(--mono); font-size: 11px; color: var(--dim);
+    }
+
+    @media (max-width: 760px) {
+      .hero-title { font-size: 44px; }
+      .section-title { font-size: 32px; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="top">
+    <div class="container">
+      <a href="/" class="brand">
+        <img src="/assets/logo.png" alt="" />
+        mk-family<span class="dot">.</span>
+      </a>
+      <div class="nav-links">
+        <a href="/">Family</a>
+        <a href="/qa-master">QA Master</a>
+        <a href="/spec-master">Spec Master</a>
+      </div>
+      <div class="nav-actions">
+        <a class="btn btn-ghost btn-sm" href="https://github.com/kao273183">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <slot />
+
+  <footer>
+    <div class="container">
+      <div class="links">
+        <a href="/">Family</a>
+        <a href="/qa-master">mk-qa-master</a>
+        <a href="/spec-master">mk-spec-master</a>
+        <a href="https://github.com/kao273183">GitHub</a>
+        <a href="https://www.buymeacoffee.com/minikao" target="_blank" rel="noopener" style="color: #FFDD00;">☕ Support</a>
+      </div>
+      <div class="meta">MIT License · Built by <a href="https://chenjundigital.com" style="color: var(--accent);">宸鈞數位</a> →</div>
+    </div>
+  </footer>
+</body>
+</html>
