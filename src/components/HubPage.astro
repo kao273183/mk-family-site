@@ -9,11 +9,11 @@ export interface Props {
 const { lang } = Astro.props;
 const tr = t(lang);
 const title = lang === "en"
-  ? "MK Family · AI-QA MCPs for Claude / Cursor / Codex / Gemini"
-  : "MK 家族 · AI-QA MCP for Claude / Cursor / Codex / Gemini";
+  ? "MK Family · AI Dev MCPs for Claude / Cursor / Codex / Gemini"
+  : "MK 家族 · AI 開發 MCP for Claude / Cursor / Codex / Gemini";
 const description = lang === "en"
-  ? "An opinionated family of open-source MCP servers for AI-driven QA workflows. Spec → test → coverage → coach — each MCP owns one job."
-  : "為 AI 驅動 QA 流程設計的開源 MCP server 家族。Spec → test → coverage → coach,每支 MCP 只做一件事。";
+  ? "An opinionated family of open-source MCP servers for the AI dev pipeline. Plan → spec → test → coverage → coach — each MCP owns one stage."
+  : "為 AI 驅動軟體開發流程設計的開源 MCP server 家族。Plan → spec → test → coverage → coach,每支 MCP 只做一段。";
 ---
 <Base title={title} description={description} lang={lang}>
   <!-- Hero -->

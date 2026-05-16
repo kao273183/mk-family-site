@@ -15,10 +15,10 @@ const zhTw: Translation = {
 
   hub: {
     hero: {
-      eyebrow: "開源 · Model Context Protocol · AI-QA 家族",
-      title: 'mk-<span class="accent">*</span> 家族<br/>把 AI QA 拆開來做',
+      eyebrow: "開源 · Model Context Protocol · AI 開發家族",
+      title: 'mk-<span class="accent">*</span> 家族<br/>把 AI 開發流程拆開來做',
       altName: "AI 大師系列 · MK FAMILY",
-      sub: "一系列為 AI 驅動 QA 流程設計的 MCP server。每支只做一件事 —— <strong>規格</strong>進、<strong>測試</strong>出、<strong>覆蓋率</strong>追蹤、<strong>套件</strong>被教練、<strong>趨勢</strong>跨時間自我強化。把它們塞進 Claude / Cursor / Codex / Gemini 的 config，讓 AI 來開車。",
+      sub: "為 AI 驅動軟體開發流程設計的 MCP server 家族。每支只做一件事——<strong>點子</strong>排序、<strong>規格</strong>產出、<strong>測試</strong>生成、<strong>覆蓋率</strong>追蹤、<strong>套件</strong>被教練、<strong>趨勢</strong>跨時間自我強化。把它們塞進 Claude / Cursor / Codex / Gemini 的 config，讓 AI 來開車。",
       ctaPrimary: "看看家族成員 →",
       ctaGhost: "到 GitHub 看原始碼",
     },

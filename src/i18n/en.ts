@@ -15,10 +15,10 @@ const en: Translation = {
 
   hub: {
     hero: {
-      eyebrow: "Open source · Model Context Protocol · AI-QA Family",
-      title: 'The <span class="accent">mk-*</span> family.<br/>AI QA, decomposed.',
+      eyebrow: "Open source · Model Context Protocol · AI Dev Family",
+      title: 'The <span class="accent">mk-*</span> family.<br/>AI dev, decomposed.',
       altName: "AI 大師系列 · MK FAMILY",
-      sub: "An opinionated family of MCP servers for AI-driven QA workflows. Each member owns one job in the loop — <strong>specs</strong> in, <strong>tests</strong> out, <strong>coverage</strong> tracked, <strong>suite</strong> coached, <strong>trend</strong> self-reinforced over time. Compose them in your Claude / Cursor / Codex / Gemini config and let the AI drive.",
+      sub: "An opinionated family of MCP servers for the full AI-driven dev pipeline. Each member owns one stage — <strong>ideas</strong> ranked, <strong>specs</strong> produced, <strong>tests</strong> generated, <strong>coverage</strong> tracked, <strong>suite</strong> coached, <strong>trend</strong> self-reinforced over time. Compose them in your Claude / Cursor / Codex / Gemini config and let the AI drive.",
       ctaPrimary: "Meet the family →",
       ctaGhost: "View on GitHub",
     },
