@@ -29,25 +29,8 @@ const description = lang === "en"
         <a class="btn btn-ghost" href="https://github.com/kao273183/mk-qa-master/blob/main/README.md">{tr.cta.readDocs}</a>
       </div>
 
-      <!-- Terminal demo -->
-      <div class="terminal" aria-hidden="true">
-        <div class="terminal-bar">
-          <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
-          <span>claude · mk-qa-master</span>
-        </div>
-        <div class="terminal-body">
-          <div><span class="prompt">you ▸</span> <span class="user">{tr.qa.terminal.line1}</span></div>
-          <div><span class="cmt">{tr.qa.terminal.cmt1}</span></div>
-          <div><span class="out">→ analyze_url</span> <span class="ok">✓</span> <span class="out">{tr.qa.terminal.out1}</span></div>
-          <div><span class="out">→ generate_test</span> <span class="ok">✓</span> <span class="out">tests/test_login.py (4 cases)</span></div>
-          <div><span class="out">→ run_tests</span> <span class="warn">⚠</span> <span class="out">3 passed, 1 failed</span></div>
-          <div><span class="out">→ get_optimization_plan</span> <span class="ok">✓</span> <span class="out">{tr.qa.terminal.out2}</span></div>
-          <div style="margin-top: 6px;"><span class="prompt">you ▸</span> <span class="user">{tr.qa.terminal.line2}</span><span class="cursor"></span></div>
-        </div>
-      </div>
-
-      <div class="compat" style="margin-top: 60px;">
-        <div class="compat-label">Drives any of these test frameworks</div>
+      <div class="compat" style="margin-top: 36px;">
+        <div class="compat-label">{lang === "en" ? "Drives any of these test frameworks" : "驅動以下任一測試 framework"}</div>
         <div class="compat-row">
           <span class="pill">pytest + Playwright</span>
           <span class="pill">Jest</span>
@@ -59,8 +42,27 @@ const description = lang === "en"
     </div>
   </section>
 
-  <!-- Features -->
+  <!-- What this is NOT -->
   <section class="block">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.qa.notFor.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.qa.notFor.title}></h2>
+        <p class="section-sub">{tr.qa.notFor.sub}</p>
+      </div>
+      <div class="layer-list">
+        {tr.qa.notFor.rows.map((r) => (
+          <div class="layer-row">
+            <div class="layer-label" style="color: var(--red);">{r.not}</div>
+            <div class="layer-body">→ {r.instead}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features (qa-unique) -->
+  <section class="block" style="padding-top: 0;">
     <div class="container">
       <div class="section-head">
         <div class="section-eyebrow">{tr.qa.features.eyebrow}</div>
@@ -79,7 +81,18 @@ const description = lang === "en"
     </div>
   </section>
 
-  <!-- QA Knowledge layers -->
+  <!-- Pipeline blurb (qa-unique) -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.qa.pipeline.eyebrow}</div>
+        <h2 class="section-title">{tr.qa.pipeline.title}</h2>
+        <p class="section-sub">{tr.qa.pipeline.sub}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QA Knowledge layers (qa-unique) -->
   <section class="block" style="padding-top: 0;">
     <div class="container">
       <div class="section-head">
@@ -98,7 +111,7 @@ const description = lang === "en"
     </div>
   </section>
 
-  <!-- Coach 3 lenses -->
+  <!-- Coach 3 lenses (qa-unique) -->
   <section class="block" style="padding-top: 0;">
     <div class="container">
       <div class="section-head">
@@ -117,7 +130,29 @@ const description = lang === "en"
     </div>
   </section>
 
-  <!-- Tools -->
+  <!-- Adapters (runners) -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.qa.adapters.eyebrow}</div>
+        <h2 class="section-title">{tr.qa.adapters.title}</h2>
+        <p class="section-sub" set:html={tr.qa.adapters.sub}></p>
+      </div>
+      <div class="layer-list">
+        {tr.qa.adapters.rows.map((r) => (
+          <div class="layer-row">
+            <div class="layer-label"><code>{r.src}</code></div>
+            <div class="layer-body">
+              <strong>env:</strong> {r.auth}
+              <br/><span style="color: var(--dim); font-size: 13px;">since {r.since}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools (upgraded to spec/plan style) -->
   <section class="block" style="padding-top: 0;">
     <div class="container">
       <div class="section-head">
@@ -128,12 +163,74 @@ const description = lang === "en"
       <div class="tools-grid">
         {tr.qa.tools.groups.map((g) => (
           <div class="tool-cat">
-            <div class="label">{g.label}</div>
-            <div class="items">
-              {g.items.map((i) => <code>{i}</code>)}
-            </div>
+            <div class="label">{g.name}</div>
+            <ul>
+              {g.items.map((i) => (
+                <li><code>{i.tool}</code> — <span set:html={i.purpose}></span></li>
+              ))}
+            </ul>
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflows -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.qa.workflows.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.qa.workflows.title}></h2>
+        <p class="section-sub">{tr.qa.workflows.sub}</p>
+      </div>
+      <div class="grid-2">
+        {tr.qa.workflows.items.map((w, i) => (
+          <div class="card">
+            <div class="role">{i + 1}.</div>
+            <p style="color: var(--text); font-style: italic; margin-bottom: 16px;">"{w.prompt}"</p>
+            <pre style="font-size: 11px; padding: 14px; line-height: 1.8; white-space: pre-wrap; word-break: break-word;">{w.chain}</pre>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample outputs -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.qa.samples.eyebrow}</div>
+        <h2 class="section-title">{tr.qa.samples.title}</h2>
+        <p class="section-sub">{tr.qa.samples.sub}</p>
+      </div>
+      <h3 style="font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px;">get_optimization_plan</h3>
+      <pre style="margin-bottom: 32px;">{tr.qa.samples.optimizationPlan}</pre>
+      {tr.qa.samples.testReport && (
+        <>
+          <h3 style="font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px;">get_test_report + get_failure_details</h3>
+          <pre>{tr.qa.samples.testReport}</pre>
+        </>
+      )}
+    </div>
+  </section>
+
+  <!-- Terminal demo (qa-unique) -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="terminal" aria-hidden="true">
+        <div class="terminal-bar">
+          <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+          <span>claude · mk-qa-master</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">you ▸</span> <span class="user">{tr.qa.terminal.line1}</span></div>
+          <div><span class="cmt">{tr.qa.terminal.cmt1}</span></div>
+          <div><span class="out">→ analyze_url</span> <span class="ok">✓</span> <span class="out">{tr.qa.terminal.out1}</span></div>
+          <div><span class="out">→ generate_test</span> <span class="ok">✓</span> <span class="out">tests/test_login.py (4 cases)</span></div>
+          <div><span class="out">→ run_tests</span> <span class="warn">⚠</span> <span class="out">3 passed, 1 failed</span></div>
+          <div><span class="out">→ get_optimization_plan</span> <span class="ok">✓</span> <span class="out">{tr.qa.terminal.out2}</span></div>
+          <div style="margin-top: 6px;"><span class="prompt">you ▸</span> <span class="user">{tr.qa.terminal.line2}</span><span class="cursor"></span></div>
+        </div>
       </div>
     </div>
   </section>

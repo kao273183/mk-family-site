@@ -130,17 +130,154 @@ const en: Translation = {
         },
       ],
     },
-    tools: {
-      eyebrow: "Tools",
-      title: '16 tools across <span class="accent">5 categories</span>',
-      sub: "You don't need to memorize names — the prompting cookbook in the README has natural-language phrasings for both web and mobile.",
-      groups: [
-        { label: "Discover", items: ["get_runner_info", "list_tests", "analyze_url", "analyze_screen"] },
-        { label: "Generate", items: ["generate_test", "auto_generate_tests", "codegen", "init_qa_knowledge", "get_qa_context"] },
-        { label: "Run", items: ["run_tests", "run_failed"] },
-        { label: "Report", items: ["get_test_report", "get_failure_details", "generate_html_report", "get_test_history"] },
-        { label: "Advisor", items: ["get_optimization_plan"] },
+    notFor: {
+      eyebrow: "Scope",
+      title: "What this is <em>not</em>",
+      sub: "mk-qa-master sits between your AI client and your test framework. It's not the framework, the LLM, a CI runner, a source analyzer, or a SaaS UI.",
+      rows: [
+        { not: "A test framework", instead: "Bring pytest / Jest / Cypress / Go test / Maestro — qa-master drives them" },
+        { not: "An LLM", instead: "Reasoning lives in your AI client (Claude / Cursor / Codex / Gemini). qa-master only exposes tools" },
+        { not: "A CI runner", instead: "Runs locally + reports JUnit XML / HTML. Wire JUnit into GitHub Actions / Jenkins / GitLab yourself" },
+        { not: "A source-code analyzer", instead: "Analyzes the live DOM (web) / view hierarchy (mobile), not your repo source" },
+        { not: "A SaaS dashboard", instead: "MCP-native: lives in your AI client. The HTML report is one self-contained file" },
       ],
+    },
+    tools: {
+      eyebrow: "Tool surface",
+      title: '16 tools across <span class="accent">5 roles</span>',
+      sub: "Grouped by role. Each group is one layer in the analyze → generate → run → report → advise loop. README's prompting cookbook has natural-language phrasings — you rarely name a tool yourself.",
+      groups: [
+        {
+          name: "Discover — orientation + scan",
+          items: [
+            { tool: "get_runner_info", purpose: "Which runner is active + all available. Call this first so the AI picks the right test template (Playwright .py vs Maestro .yaml)." },
+            { tool: "list_tests", purpose: "Enumerate every collectable test under the active runner — pytest --collect-only, jest --listTests, cypress glob, go -list, maestro YAML walk." },
+            { tool: "analyze_url", purpose: "Web: probe a live URL — form / nav / dialog / cta modules + selectors + API endpoints the page hits + layout-overflow warnings + candidate TCs." },
+            { tool: "analyze_screen", purpose: "Mobile: dump <code>maestro hierarchy</code> → form / cta / tab_bar modules + candidate TCs, noise-filtered (status bar + asset names stripped)." },
+          ],
+        },
+        {
+          name: "Generate — modules → runnable tests",
+          items: [
+            { tool: "generate_test", purpose: "Test skeleton; with <code>module</code> from analyze_url/analyze_screen, a *runnable* Playwright .py or Maestro .yaml with concrete selectors — not <code># TODO</code> stubs." },
+            { tool: "auto_generate_tests", purpose: "One-shot: analyze_url → generate_test per module. Hand it a URL, get a tests/ folder back." },
+            { tool: "codegen", purpose: "Launch Playwright codegen interactively (web) / hint to <code>maestro studio</code> (mobile). Good for baseline happy-path recording." },
+            { tool: "init_qa_knowledge", purpose: "Scaffold qa-knowledge.md in the project root — business rules / past bugs / standard assertions / user journeys / technical constraints." },
+            { tool: "get_qa_context", purpose: "Read qa-knowledge.md (built-in ISTQB fallback). Feed a slice into generate_test.business_context for domain-aware tests." },
+          ],
+        },
+        {
+          name: "Run — execute the suite",
+          items: [
+            { tool: "run_tests", purpose: "Execute under the active runner; writes report.json + JUnit XML, snapshots into history/, auto-refreshes optimization-plan.md. Optional <code>filter</code>." },
+            { tool: "run_failed", purpose: "Re-run only last failures — pytest --lf, jest --onlyFailures, cypress/go reverse-lookup, maestro nodeid → .yaml. Way faster than re-running the suite." },
+          ],
+        },
+        {
+          name: "Report — read what just happened",
+          items: [
+            { tool: "get_test_report", purpose: "Summary: passed / failed / skipped / flaky_in_run / duration. Cheap — use it between actions instead of re-running." },
+            { tool: "get_failure_details", purpose: "Per-failure message + screenshot + Playwright trace.zip + video paths + parsed step sequence. The 「why did it fail」 tool." },
+            { tool: "generate_html_report", purpose: "Render the latest run as one self-contained HTML — base64 screenshots, trend sparkline, collapsed Passed, expanded Failed cards. Slack-able." },
+            { tool: "get_test_history", purpose: "Last N archived run summaries — flake / duration regression / pass-rate trend. Pair with get_optimization_plan for action items." },
+          ],
+        },
+        {
+          name: "Advisor — the self-improvement coach",
+          items: [
+            { tool: "get_optimization_plan", purpose: "Three-lens prioritized plan: suite quality (flake / broken / slow_regression) + MCP usability (top tools, repeat args, error rate) + AI effectiveness (generate_test adoption, coverage gaps). Writes optimization-plan.md every run." },
+          ],
+        },
+      ],
+    },
+    adapters: {
+      eyebrow: "Runners",
+      title: "5 runners, one tool surface",
+      sub: "Switch via the <code>QA_RUNNER</code> env var. Same tools, five different frameworks — web on four, mobile on Maestro.",
+      rows: [
+        { src: "pytest-playwright", auth: "QA_RUNNER=pytest", since: "0.1.0" },
+        { src: "jest", auth: "QA_RUNNER=jest", since: "0.2.0" },
+        { src: "cypress", auth: "QA_RUNNER=cypress", since: "0.2.0" },
+        { src: "go test", auth: "QA_RUNNER=go", since: "0.2.0" },
+        { src: "maestro (iOS + Android + BlueStacks)", auth: "QA_RUNNER=maestro (+ optional QA_ANDROID_HOST for BlueStacks)", since: "0.3.0" },
+      ],
+    },
+    workflows: {
+      eyebrow: "Workflows",
+      title: 'Four prompts cover <span class="accent">~90%</span> of real use',
+      sub: "One sentence to the AI client; the tools chain automatically.",
+      items: [
+        {
+          prompt: "Test https://your-site/login — analyze the page, write tests for every module, run them, then tell me what to fix.",
+          chain: "analyze_url → generate_test (×N modules) → run_tests → get_failure_details → get_optimization_plan",
+        },
+        {
+          prompt: "I just added three new feature pages — auto-generate tests for everything the analyzer finds and run them.",
+          chain: "auto_generate_tests(url=...) → run_tests → get_test_report → get_optimization_plan",
+        },
+        {
+          prompt: "What's wrong with my test suite this week — give me a ranked plan, not gut feel.",
+          chain: "get_test_history(limit=30) → get_optimization_plan(history_limit=30, telemetry_limit=2000)",
+        },
+        {
+          prompt: "Test the barcode button on my mobile app on the iOS Simulator and tell me if it's flaky.",
+          chain: "analyze_screen(app_id='com.example.app', launch_app=true) → generate_test(module=<cta>) → run_tests → get_optimization_plan",
+        },
+      ],
+    },
+    samples: {
+      eyebrow: "Sample output",
+      title: "What you actually get",
+      sub: "Same shape as spec-master's plan — markdown, ready to paste into Slack / JIRA / a sprint planning doc. Auto-written after every run.",
+      optimizationPlan: `# Optimization Plan — 2026-05-12T14:03:40
+
+_Based on 6 archived runs._
+
+## Prioritized Actions
+
+### 1. 🔴 HIGH — flaky
+- **Target**: \`tests/test_login.py::test_invalid_credentials\`
+- **Evidence**: flake_score=0.4, outcomes=PFPFP, rerun_count=1
+- **Suggestion**: 加 explicit wait (wait_for_response / locator wait)
+- **auto_action_hint**: \`get_failure_details(test_id="test_invalid_credentials")\`
+
+### 2. 🟡 MEDIUM — coverage_gap
+- **Target**: \`register_form\` (module detected on /register)
+- **Evidence**: analyze_url found this module; no matching test_*.py in repo
+- **Suggestion**: \`generate_test(description="...", filename="test_register_form.py")\`
+
+### 3. 🟡 MEDIUM — slow_regression
+- **Target**: \`tests/test_checkout.py::test_full_flow\`
+- **Evidence**: median duration 1.8× baseline across last 6 runs
+- **Suggestion**: profile network waits; pin fixture data; consider parallel mark
+
+## MCP usability
+- Top tool: \`run_tests\` (38%) · \`analyze_url\` (22%) · \`get_failure_details\` (14%)
+- Common chain: \`analyze_url → generate_test\` (17 occurrences)
+- Error rate: 2.3% (1 timeout in analyze_url against slow staging)
+
+## AI effectiveness
+- generate_test adoption: 9 / 11 generated tests appeared in the next run (82%)
+- coverage gap: 1 module from analyze_url has no matching test file (\`register_form\`)`,
+      testReport: `# Test Report — pytest-playwright
+
+- total: 23
+- passed: 19
+- failed: 3
+- flaky_in_run: 1   ← auto-retry rescued
+- skipped: 0
+- duration: 31.4s
+
+## Failures
+1. \`tests/test_login.py::test_invalid_credentials\`
+   - message: \`AssertionError: expected error text not visible\`
+   - screenshot: \`test-results/.../test-failed-1.png\`
+   - trace:      \`test-results/.../trace.zip\`
+   - video:      \`test-results/.../video.webm\`
+
+2. \`tests/test_coupon.py::test_idempotency\`
+   - message: \`Timeout waiting for /api/coupon (5000ms)\`
+   - last step: \`Page.waitForResponse('/api/coupon')\``,
     },
     terminal: {
       line1: "Test https://your-site/login — one case per module",

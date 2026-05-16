@@ -91,7 +91,32 @@ export interface Translation {
       eyebrow: string;
       title: string;
       sub: string;
-      groups: { label: string; items: string[] }[];
+      groups: { name: string; items: { tool: string; purpose: string }[] }[];
+    };
+    notFor: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+      rows: { not: string; instead: string }[];
+    };
+    adapters: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+      rows: { src: string; auth: string; since: string }[];
+    };
+    workflows: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+      items: { prompt: string; chain: string }[];
+    };
+    samples: {
+      eyebrow: string;
+      title: string;
+      sub: string;
+      optimizationPlan: string;
+      testReport?: string;
     };
     terminal: {
       line1: string;

@@ -130,17 +130,154 @@ const zhTw: Translation = {
         },
       ],
     },
-    tools: {
-      eyebrow: "工具",
-      title: '16 個 tool、分 <span class="accent">5 類</span>',
-      sub: "你不用記名稱——README 裡的 prompting cookbook 有對應的中文 prompt 寫法，Web 跟手機都有。",
-      groups: [
-        { label: "探索", items: ["get_runner_info", "list_tests", "analyze_url", "analyze_screen"] },
-        { label: "產生", items: ["generate_test", "auto_generate_tests", "codegen", "init_qa_knowledge", "get_qa_context"] },
-        { label: "執行", items: ["run_tests", "run_failed"] },
-        { label: "回報", items: ["get_test_report", "get_failure_details", "generate_html_report", "get_test_history"] },
-        { label: "顧問", items: ["get_optimization_plan"] },
+    notFor: {
+      eyebrow: "範圍",
+      title: "這「<em>不</em>」是什麼",
+      sub: "mk-qa-master 站在 AI client 跟測試 framework 之間。它不是 framework、不是 LLM、不是 CI runner、不是 source-code 分析器、也不是 SaaS UI。",
+      rows: [
+        { not: "測試 framework", instead: "你帶 pytest / Jest / Cypress / Go test / Maestro 進來——qa-master 負責驅動它們" },
+        { not: "LLM", instead: "推理交給你的 AI client（Claude / Cursor / Codex / Gemini）。qa-master 只 expose tool" },
+        { not: "CI runner", instead: "本地跑 + 產 JUnit XML / HTML 報告。把 JUnit 接進 GitHub Actions / Jenkins / GitLab 是你的事" },
+        { not: "原始碼分析器", instead: "分析的是 live DOM（Web）/ view hierarchy（手機），不是你 repo 的 source code" },
+        { not: "SaaS 儀表板", instead: "MCP-native，住在 AI client 裡。HTML 報告就是一個自包含 .html 檔" },
       ],
+    },
+    tools: {
+      eyebrow: "Tool 表",
+      title: '16 個 tool、分 <span class="accent">5 個角色</span>',
+      sub: "按角色分組。每組是 analyze → generate → run → report → advise 迴圈的一層。README 的 prompting cookbook 有中文自然語句寫法——你很少需要自己叫 tool 名稱。",
+      groups: [
+        {
+          name: "Discover — 暖機 + 掃描",
+          items: [
+            { tool: "get_runner_info", purpose: "目前用哪個 runner、有哪些可用——session 第一個叫，讓 AI 知道後面要產 Playwright .py 還是 Maestro .yaml" },
+            { tool: "list_tests", purpose: "用 runner 原生機制列全部可執行測試——pytest --collect-only、jest --listTests、cypress glob、go -list、maestro YAML 遞迴" },
+            { tool: "analyze_url", purpose: "Web：偵測 live URL → form / nav / dialog / cta 模塊 + selectors + 頁面打過的 API endpoints + 跑版警告 + candidate TC" },
+            { tool: "analyze_screen", purpose: "手機：dump <code>maestro hierarchy</code> → form / cta / tab_bar 模塊 + candidate TC，自動濾掉 iOS 狀態列 + asset 名稱噪音" },
+          ],
+        },
+        {
+          name: "Generate — 模塊變可跑測試",
+          items: [
+            { tool: "generate_test", purpose: "test 骨架；帶 analyze_url/analyze_screen 的 <code>module</code> 進來時，產可直接跑的 Playwright .py 或 Maestro .yaml——真 selector、不是 <code># TODO</code>" },
+            { tool: "auto_generate_tests", purpose: "一鍵：analyze_url → 每個 module 產一條 test。給 URL，回 tests/ 資料夾" },
+            { tool: "codegen", purpose: "啟動 Playwright codegen（Web）/ 提示用 <code>maestro studio</code>（手機）。錄基準 happy-path 用" },
+            { tool: "init_qa_knowledge", purpose: "在 project root 起 qa-knowledge.md 範本——業務規則 / 歷史 Bug / 標準斷言 / user journey / 技術約束" },
+            { tool: "get_qa_context", purpose: "讀 qa-knowledge.md（內建 ISTQB fallback）。把相關段落帶進 generate_test.business_context 寫有業務知識的測試" },
+          ],
+        },
+        {
+          name: "Run — 執行測試套件",
+          items: [
+            { tool: "run_tests", purpose: "用 active runner 跑；產 report.json + JUnit XML、snapshot 到 history/、自動更新 optimization-plan.md。可選 <code>filter</code>" },
+            { tool: "run_failed", purpose: "只重跑上次失敗——pytest --lf、jest --onlyFailures、cypress/go 反查、maestro nodeid → .yaml。比整套快很多" },
+          ],
+        },
+        {
+          name: "Report — 看剛剛發生什麼",
+          items: [
+            { tool: "get_test_report", purpose: "摘要：passed / failed / skipped / flaky_in_run / duration。便宜——多輪操作中間反覆查狀態用" },
+            { tool: "get_failure_details", purpose: "每條失敗的 message + screenshot + Playwright trace.zip + video 路徑 + 解析的 step 序列。「為什麼 fail」一鍵答" },
+            { tool: "generate_html_report", purpose: "把最近一次 run 渲染成一個自包含 HTML——base64 截圖、trend sparkline、Passed 收合 / Failed 展開。可丟 Slack" },
+            { tool: "get_test_history", purpose: "最近 N 次歸檔 run 摘要——flake / duration 退化 / pass-rate trend。要可執行建議接 get_optimization_plan" },
+          ],
+        },
+        {
+          name: "Advisor — 自我強化教練",
+          items: [
+            { tool: "get_optimization_plan", purpose: "三層排序好的行動清單：套件品質（flake / broken / slow_regression）+ MCP 使用（top tool、重複 args、錯誤率）+ AI 效益（generate_test 採用率、覆蓋缺口）。每次 run 自動寫 optimization-plan.md" },
+          ],
+        },
+      ],
+    },
+    adapters: {
+      eyebrow: "Runner",
+      title: "5 個 runner、共用一組 tool",
+      sub: "用 <code>QA_RUNNER</code> 環境變數切。同樣的工具，五種 framework——四種 Web，手機走 Maestro。",
+      rows: [
+        { src: "pytest-playwright", auth: "QA_RUNNER=pytest", since: "0.1.0" },
+        { src: "jest", auth: "QA_RUNNER=jest", since: "0.2.0" },
+        { src: "cypress", auth: "QA_RUNNER=cypress", since: "0.2.0" },
+        { src: "go test", auth: "QA_RUNNER=go", since: "0.2.0" },
+        { src: "maestro（iOS + Android + BlueStacks）", auth: "QA_RUNNER=maestro（+ 選用 QA_ANDROID_HOST 給 BlueStacks）", since: "0.3.0" },
+      ],
+    },
+    workflows: {
+      eyebrow: "工作流程",
+      title: '四個 prompt 涵蓋 <span class="accent">~90%</span> 的真實用法',
+      sub: "一句話給 AI client，工具自動串。",
+      items: [
+        {
+          prompt: "測 https://your-site/login——分析頁面、對每個模塊寫測試、跑、再告訴我要修什麼。",
+          chain: "analyze_url → generate_test (×N modules) → run_tests → get_failure_details → get_optimization_plan",
+        },
+        {
+          prompt: "我剛加了三個新功能頁——analyzer 找到什麼就自動產測試、跑起來。",
+          chain: "auto_generate_tests(url=...) → run_tests → get_test_report → get_optimization_plan",
+        },
+        {
+          prompt: "這週測試套件哪裡爛——給我排序好的行動清單，不要憑感覺。",
+          chain: "get_test_history(limit=30) → get_optimization_plan(history_limit=30, telemetry_limit=2000)",
+        },
+        {
+          prompt: "在 iOS Simulator 上測我 app 的條碼按鈕，順便告訴我它會不會 flaky。",
+          chain: "analyze_screen(app_id='com.example.app', launch_app=true) → generate_test(module=<cta>) → run_tests → get_optimization_plan",
+        },
+      ],
+    },
+    samples: {
+      eyebrow: "範例輸出",
+      title: "你實際會拿到什麼",
+      sub: "跟 spec-master 同一套形式——markdown，可直接 paste 進 Slack / JIRA / sprint planning doc。每次 run 完自動寫。",
+      optimizationPlan: `# Optimization Plan — 2026-05-12T14:03:40
+
+_Based on 6 archived runs._
+
+## Prioritized Actions
+
+### 1. 🔴 HIGH — flaky
+- **Target**: \`tests/test_login.py::test_invalid_credentials\`
+- **Evidence**: flake_score=0.4, outcomes=PFPFP, rerun_count=1
+- **Suggestion**: 加 explicit wait（wait_for_response / locator wait）
+- **auto_action_hint**: \`get_failure_details(test_id="test_invalid_credentials")\`
+
+### 2. 🟡 MEDIUM — coverage_gap
+- **Target**: \`register_form\`（analyze_url 在 /register 偵測到的模塊）
+- **Evidence**: analyze_url 偵測但 repo 內找不到對應 test_*.py
+- **Suggestion**: \`generate_test(description="...", filename="test_register_form.py")\`
+
+### 3. 🟡 MEDIUM — slow_regression
+- **Target**: \`tests/test_checkout.py::test_full_flow\`
+- **Evidence**: 最近 6 次 run，median duration 1.8× baseline
+- **Suggestion**: 看 network wait 用法、固定 fixture data、考慮 parallel mark
+
+## MCP usability
+- Top tool：\`run_tests\` (38%) · \`analyze_url\` (22%) · \`get_failure_details\` (14%)
+- 常見呼叫鏈：\`analyze_url → generate_test\`（出現 17 次）
+- 錯誤率：2.3%（1 次 analyze_url 在慢 staging 上 timeout）
+
+## AI 有效度
+- generate_test 採用率：11 條產出有 9 條出現在下次 run（82%）
+- 覆蓋缺口：1 個 analyze_url 偵測的模塊沒有對應 test 檔（\`register_form\`）`,
+      testReport: `# Test Report — pytest-playwright
+
+- total: 23
+- passed: 19
+- failed: 3
+- flaky_in_run: 1   ← auto-retry 救回
+- skipped: 0
+- duration: 31.4s
+
+## Failures
+1. \`tests/test_login.py::test_invalid_credentials\`
+   - message: \`AssertionError: 預期錯誤訊息未顯示\`
+   - screenshot: \`test-results/.../test-failed-1.png\`
+   - trace:      \`test-results/.../trace.zip\`
+   - video:      \`test-results/.../video.webm\`
+
+2. \`tests/test_coupon.py::test_idempotency\`
+   - message: \`Timeout 等 /api/coupon (5000ms)\`
+   - last step: \`Page.waitForResponse('/api/coupon')\``,
     },
     terminal: {
       line1: "測試 https://your-site/login — 對每個模塊產 1 條 test",
