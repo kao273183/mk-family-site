@@ -1,0 +1,153 @@
+---
+import Base from "../layouts/Base.astro";
+import family from "../data/family.json";
+import { t, localePath, type Lang } from "../i18n";
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const title = lang === "en"
+  ? "MK Family · AI-QA MCPs for Claude / Cursor / Codex / Gemini"
+  : "MK 家族 · AI-QA MCP for Claude / Cursor / Codex / Gemini";
+const description = lang === "en"
+  ? "An opinionated family of open-source MCP servers for AI-driven QA workflows. Spec → test → coverage → coach — each MCP owns one job."
+  : "為 AI 驅動 QA 流程設計的開源 MCP server 家族。Spec → test → coverage → coach,每支 MCP 只做一件事。";
+---
+<Base title={title} description={description} lang={lang}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <img src="/assets/logo.png" alt="MK Family" class="hero-logo" />
+      <span class="eyebrow">{tr.hub.hero.eyebrow}</span>
+      <h1 class="hero-title" set:html={tr.hub.hero.title}></h1>
+      <p class="hero-alt-name">{tr.hub.hero.altName}</p>
+      <p class="hero-sub" set:html={tr.hub.hero.sub}></p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#members">{tr.hub.hero.ctaPrimary}</a>
+        <a class="btn btn-ghost" href="https://github.com/kao273183">{tr.hub.hero.ctaGhost}</a>
+      </div>
+
+      <div class="compat">
+        <div class="compat-label">{tr.hub.compat.label}</div>
+        <div class="compat-row">
+          <span class="pill">Claude Desktop</span>
+          <span class="pill">Cursor</span>
+          <span class="pill">Codex CLI</span>
+          <span class="pill">Gemini CLI</span>
+          <span class="pill">Cline</span>
+          <span class="pill">Zed</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Loop -->
+  <section class="block">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.hub.loop.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.hub.loop.title}></h2>
+        <p class="section-sub">{tr.hub.loop.sub}</p>
+      </div>
+      <div class="pipeline">
+        {tr.hub.loop.steps.map((s) => (
+          <div class="pipe-step">
+            <div class="pipe-name">{s.name}</div>
+            <div class="pipe-owner">{s.owner}</div>
+            <div class="pipe-blurb">{s.blurb}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Members -->
+  <section id="members" class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.hub.members.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.hub.members.title}></h2>
+        <p class="section-sub">{tr.hub.members.sub}</p>
+      </div>
+      <div class="grid-2">
+        {family.members.map((m) => {
+          const role = lang === "zh-tw" ? m.role_zh : m.role;
+          const tagline = lang === "zh-tw" ? m.tagline_zh : m.tagline;
+          return (
+            <div class="card">
+              <div class="role">{role}</div>
+              <h3>{m.displayName} <span style="color: var(--dim); font-family: var(--mono); font-size: 14px; font-weight: 400;">· {m.altName}</span></h3>
+              <span class="badge">{m.status}</span> <span class="badge muted">{m.tools} tools</span>
+              <p style="margin-top: 18px;">{tagline}</p>
+              <ul>
+                {m.highlights.map((h: string) => <li>{h}</li>)}
+              </ul>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <a class="btn btn-primary btn-sm" href={localePath(lang, m.slug)}>{tr.hub.members.deepDive}</a>
+                <a class="btn btn-ghost btn-sm" href={m.github}>{tr.cta.github}</a>
+                <a class="btn btn-ghost btn-sm" href={m.pypi}>{tr.cta.pypi}</a>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Future -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.hub.future.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.hub.future.title}></h2>
+        <p class="section-sub">{tr.hub.future.sub}</p>
+      </div>
+      <div class="grid-2">
+        {family.future.map((m) => {
+          const tagline = lang === "zh-tw" ? m.tagline_zh : m.tagline;
+          return (
+            <div class="card">
+              <div class="role" style="color: var(--muted);">{tr.hub.future.tag}</div>
+              <h3>{m.displayName}</h3>
+              <span class="badge muted">{m.status}</span>
+              <p style="margin-top: 18px;">{tagline}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Install -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.hub.install.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.hub.install.title}></h2>
+        <p class="section-sub">{tr.hub.install.sub}</p>
+      </div>
+      <pre>{`{
+  "mcpServers": {
+    "mk-qa-master": {
+      "command": "uvx",
+      "args": ["mk-qa-master"],
+      "env": {
+        "QA_RUNNER": "pytest",
+        "QA_PROJECT_ROOT": "/path/to/your/project"
+      }
+    },
+    "mk-spec-master": {
+      "command": "uvx",
+      "args": ["mk-spec-master"],
+      "env": {
+        "SPEC_SOURCE": "markdown_local",
+        "SPEC_PROJECT_ROOT": "/path/to/your/project"
+      }
+    }
+  }
+}`}</pre>
+    </div>
+  </section>
+</Base>

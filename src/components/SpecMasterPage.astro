@@ -1,0 +1,170 @@
+---
+import Base from "../layouts/Base.astro";
+import { t, localePath, type Lang } from "../i18n";
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const title = lang === "en"
+  ? "mk-spec-master · AI 規格大師 — specs in, scenarios out"
+  : "mk-spec-master · AI 規格大師 — 規格進、場景出";
+const description = lang === "en"
+  ? "MCP server bridging specs (Linear / JIRA / GitHub Issues / Notion / Figma / Markdown) to tests, with bidirectional traceability and a built-in spec-quality coach."
+  : "MCP server,把規格（Linear / JIRA / GitHub Issues / Notion / Figma / Markdown）橋接到測試,雙向追蹤,內建規格品質教練。";
+---
+<Base title={title} description={description} lang={lang}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <img src="/assets/logo.png" alt="mk-spec-master" class="hero-logo" />
+      <span class="eyebrow">{tr.spec.hero.eyebrow}</span>
+      <h1 class="hero-title" set:html={tr.spec.hero.title}></h1>
+      <p class="hero-alt-name">{tr.spec.hero.altName}</p>
+      <p class="hero-sub" set:html={tr.spec.hero.sub}></p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/kao273183/mk-spec-master">{tr.cta.github} →</a>
+        <a class="btn btn-ghost" href="https://pypi.org/project/mk-spec-master/">{tr.cta.pypi}</a>
+        <a class="btn btn-ghost" href="https://github.com/kao273183/mk-spec-master/blob/main/README.md">{tr.cta.readDocs}</a>
+      </div>
+
+      <div class="compat" style="margin-top: 36px;">
+        <div class="compat-label">{lang === "en" ? "Reads specs from" : "讀取規格來源"}</div>
+        <div class="compat-row">
+          <span class="pill">Markdown</span>
+          <span class="pill">GitHub Issues</span>
+          <span class="pill">Linear</span>
+          <span class="pill">JIRA</span>
+          <span class="pill">Notion</span>
+          <span class="pill new">Figma</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What this is NOT -->
+  <section class="block">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.spec.notFor.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.spec.notFor.title}></h2>
+        <p class="section-sub">{tr.spec.notFor.sub}</p>
+      </div>
+      <div class="layer-list">
+        {tr.spec.notFor.rows.map((r) => (
+          <div class="layer-row">
+            <div class="layer-label" style="color: var(--red);">{r.not}</div>
+            <div class="layer-body">→ {r.instead}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tool surface (6 groups) -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.spec.tools.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.spec.tools.title}></h2>
+        <p class="section-sub">{tr.spec.tools.sub}</p>
+      </div>
+      <div class="tools-grid">
+        {tr.spec.tools.groups.map((g) => (
+          <div class="tool-cat">
+            <div class="label">{g.name}</div>
+            <ul>
+              {g.items.map((i) => (
+                <li><code>{i.tool}</code> — {i.purpose}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Adapter status -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.spec.adapters.eyebrow}</div>
+        <h2 class="section-title">{tr.spec.adapters.title}</h2>
+        <p class="section-sub" set:html={tr.spec.adapters.sub}></p>
+      </div>
+      <div class="layer-list">
+        {tr.spec.adapters.rows.map((r) => (
+          <div class="layer-row">
+            <div class="layer-label"><code>{r.src}</code></div>
+            <div class="layer-body">
+              <strong>auth:</strong> {r.auth}
+              <br/><span style="color: var(--dim); font-size: 13px;">since {r.since}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflows -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.spec.workflows.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.spec.workflows.title}></h2>
+        <p class="section-sub">{tr.spec.workflows.sub}</p>
+      </div>
+      <div class="grid-2">
+        {tr.spec.workflows.items.map((w, i) => (
+          <div class="card">
+            <div class="role">{i + 1}.</div>
+            <p style="color: var(--text); font-style: italic; margin-bottom: 16px;">"{w.prompt}"</p>
+            <pre style="font-size: 11px; padding: 14px; line-height: 1.7;">{w.chain}</pre>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample output -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.spec.samples.eyebrow}</div>
+        <h2 class="section-title">{tr.spec.samples.title}</h2>
+        <p class="section-sub">{tr.spec.samples.sub}</p>
+      </div>
+      <h3 style="font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px;">get_optimization_plan</h3>
+      <pre style="margin-bottom: 32px;">{tr.spec.samples.optimizationPlan}</pre>
+      <h3 style="font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px;">get_coverage_matrix</h3>
+      <pre>{tr.spec.samples.coverageMatrix}</pre>
+    </div>
+  </section>
+
+  <!-- Install + cross-link -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="final-cta">
+        <h2>{tr.common.install.titleSpec}</h2>
+        <p>{tr.common.install.explain}</p>
+        <pre style="text-align: left; margin: 24px auto; max-width: 720px;">{`{
+  "mcpServers": {
+    "mk-spec-master": {
+      "command": "uvx",
+      "args": ["mk-spec-master"],
+      "env": {
+        "SPEC_SOURCE": "markdown_local",
+        "SPEC_PROJECT_ROOT": "/path/to/your/project"
+      }
+    }
+  }
+}`}</pre>
+        <div class="cta-row" style="margin-top: 12px;">
+          <a class="btn btn-primary" href="https://github.com/kao273183/mk-spec-master#readme">{tr.cta.readDocs} →</a>
+          <a class="btn btn-ghost" href={localePath(lang, "qa-master")}>{tr.cta.sibling} mk-qa-master</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

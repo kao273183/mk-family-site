@@ -1,0 +1,166 @@
+---
+import Base from "../layouts/Base.astro";
+import { t, localePath, type Lang } from "../i18n";
+
+export interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const tr = t(lang);
+const title = lang === "en"
+  ? "mk-qa-master · AI 測試大師 — let's make QA simple"
+  : "mk-qa-master · AI 測試大師 — 讓 QA 變簡單";
+const description = lang === "en"
+  ? "MCP server driving web (pytest / Jest / Cypress / Go) and mobile (Maestro on iOS + Android, incl. BlueStacks) test suites."
+  : "MCP server，讓 AI client 跑 web（pytest / Jest / Cypress / Go）和手機（Maestro on iOS + Android、含 BlueStacks）測試。";
+---
+<Base title={title} description={description} lang={lang}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <img src="/assets/logo.png" alt="mk-qa-master" class="hero-logo" />
+      <span class="eyebrow">{tr.qa.hero.eyebrow}</span>
+      <h1 class="hero-title" set:html={tr.qa.hero.title}></h1>
+      <p class="hero-alt-name">{tr.qa.hero.altName}</p>
+      <p class="hero-sub" set:html={tr.qa.hero.sub}></p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/kao273183/mk-qa-master">{tr.cta.github} →</a>
+        <a class="btn btn-ghost" href="https://pypi.org/project/mk-qa-master/">{tr.cta.pypi}</a>
+        <a class="btn btn-ghost" href="https://github.com/kao273183/mk-qa-master/blob/main/README.md">{tr.cta.readDocs}</a>
+      </div>
+
+      <!-- Terminal demo -->
+      <div class="terminal" aria-hidden="true">
+        <div class="terminal-bar">
+          <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+          <span>claude · mk-qa-master</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="prompt">you ▸</span> <span class="user">{tr.qa.terminal.line1}</span></div>
+          <div><span class="cmt">{tr.qa.terminal.cmt1}</span></div>
+          <div><span class="out">→ analyze_url</span> <span class="ok">✓</span> <span class="out">{tr.qa.terminal.out1}</span></div>
+          <div><span class="out">→ generate_test</span> <span class="ok">✓</span> <span class="out">tests/test_login.py (4 cases)</span></div>
+          <div><span class="out">→ run_tests</span> <span class="warn">⚠</span> <span class="out">3 passed, 1 failed</span></div>
+          <div><span class="out">→ get_optimization_plan</span> <span class="ok">✓</span> <span class="out">{tr.qa.terminal.out2}</span></div>
+          <div style="margin-top: 6px;"><span class="prompt">you ▸</span> <span class="user">{tr.qa.terminal.line2}</span><span class="cursor"></span></div>
+        </div>
+      </div>
+
+      <div class="compat" style="margin-top: 60px;">
+        <div class="compat-label">Drives any of these test frameworks</div>
+        <div class="compat-row">
+          <span class="pill">pytest + Playwright</span>
+          <span class="pill">Jest</span>
+          <span class="pill">Cypress</span>
+          <span class="pill">go test</span>
+          <span class="pill new">Maestro · iOS + Android</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="block">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.qa.features.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.qa.features.title}></h2>
+        <p class="section-sub">{tr.qa.features.sub}</p>
+      </div>
+      <div class="grid-3">
+        {tr.qa.features.cards.map((c) => (
+          <div class="card">
+            <div class="icon">{c.icon}</div>
+            <h3>{c.title}</h3>
+            <p set:html={c.body}></p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- QA Knowledge layers -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.qa.knowledge.eyebrow}</div>
+        <h2 class="section-title">{tr.qa.knowledge.title}</h2>
+        <p class="section-sub">{tr.qa.knowledge.sub}</p>
+      </div>
+      <div class="layer-list">
+        {tr.qa.knowledge.layers.map((l) => (
+          <div class="layer-row">
+            <div class="layer-label">{l.name}</div>
+            <div class="layer-body" set:html={l.body}></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Coach 3 lenses -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.qa.coach.eyebrow}</div>
+        <h2 class="section-title">{tr.qa.coach.title}</h2>
+        <p class="section-sub">{tr.qa.coach.sub}</p>
+      </div>
+      <div class="grid-3">
+        {tr.qa.coach.lenses.map((l) => (
+          <div class="card">
+            <h3>{l.name}</h3>
+            <p set:html={l.body}></p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-eyebrow">{tr.qa.tools.eyebrow}</div>
+        <h2 class="section-title" set:html={tr.qa.tools.title}></h2>
+        <p class="section-sub">{tr.qa.tools.sub}</p>
+      </div>
+      <div class="tools-grid">
+        {tr.qa.tools.groups.map((g) => (
+          <div class="tool-cat">
+            <div class="label">{g.label}</div>
+            <div class="items">
+              {g.items.map((i) => <code>{i}</code>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Install + cross-link -->
+  <section class="block" style="padding-top: 0;">
+    <div class="container">
+      <div class="final-cta">
+        <h2>{tr.common.install.titleQa}</h2>
+        <p>{tr.common.install.explain}</p>
+        <pre style="text-align: left; margin: 24px auto; max-width: 720px;">{`{
+  "mcpServers": {
+    "mk-qa-master": {
+      "command": "uvx",
+      "args": ["mk-qa-master"],
+      "env": {
+        "QA_RUNNER": "pytest",
+        "QA_PROJECT_ROOT": "/path/to/your/project"
+      }
+    }
+  }
+}`}</pre>
+        <div class="cta-row" style="margin-top: 12px;">
+          <a class="btn btn-primary" href="https://github.com/kao273183/mk-qa-master#readme">{tr.cta.readDocs} →</a>
+          <a class="btn btn-ghost" href={localePath(lang, "spec-master")}>{tr.cta.sibling} mk-spec-master</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
