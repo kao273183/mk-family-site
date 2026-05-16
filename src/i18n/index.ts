@@ -13,21 +13,23 @@ export function t(lang: Lang): Translation {
   return translations[lang];
 }
 
-/** Build the URL for the same page in the opposite locale. */
+/** Build the URL for the same page in the opposite locale.
+ *  Default locale (zh-tw) sits at /; English lives at /en/*. */
 export function toggleLocaleHref(currentPath: string, currentLang: Lang): string {
-  if (currentLang === "en") {
-    // /qa-master → /zh-tw/qa-master ; / → /zh-tw/
-    if (currentPath === "/" || currentPath === "") return "/zh-tw/";
-    return `/zh-tw${currentPath}`;
+  if (currentLang === "zh-tw") {
+    // / → /en/ ; /qa-master → /en/qa-master
+    if (currentPath === "/" || currentPath === "") return "/en/";
+    return `/en${currentPath}`;
   }
-  // zh-tw → en: strip /zh-tw prefix
-  const stripped = currentPath.replace(/^\/zh-tw/, "");
+  // en → zh-tw: strip the /en prefix
+  const stripped = currentPath.replace(/^\/en/, "");
   return stripped || "/";
 }
 
-/** Build links to family deep pages in the same locale. */
+/** Build links to family deep pages in the same locale.
+ *  zh-tw is the default and lives at the root; en is prefixed /en. */
 export function localePath(lang: Lang, slug: string): string {
   const cleaned = slug.startsWith("/") ? slug : `/${slug}`;
-  if (lang === "en") return cleaned === "/" ? "/" : cleaned;
-  return cleaned === "/" ? "/zh-tw/" : `/zh-tw${cleaned}`;
+  if (lang === "zh-tw") return cleaned === "/" ? "/" : cleaned;
+  return cleaned === "/" ? "/en/" : `/en${cleaned}`;
 }
