@@ -63,7 +63,7 @@ const zhTw: Translation = {
       eyebrow: "成員 1 · 迴圈的執行端",
       title: '讓我們把 <span class="accent">QA</span> 簡單化。',
       altName: "AI 測試大師 · MK QA MASTER",
-      sub: "mk-qa-master 是一個 MCP server，讓 AI client 幫你跑 <strong>Web</strong>（pytest / Jest / Cypress / Go）跟<strong>手機</strong>（Maestro · iOS + Android · 含 BlueStacks）測試套件——從 URL 或當下手機畫面寫下一輪 TC，每跑完一次當你的「資料驅動 QA 優化顧問」。",
+      sub: "mk-qa-master 是一個 MCP server，讓 AI client 幫你跑 <strong>Web</strong>（pytest / Jest / Cypress / Go）、<strong>手機</strong>（Maestro · iOS + Android · 含 BlueStacks）跟 <strong>API</strong> 測試（你 pytest / Jest / Cypress / Go test 裡用 httpx / supertest / cy.request 寫的 API 測試一樣吃）——從 URL 或當下手機畫面寫下一輪 TC，每跑完一次當你的「資料驅動 QA 優化顧問」。",
     },
     features: {
       eyebrow: "功能",
@@ -201,7 +201,7 @@ const zhTw: Translation = {
     adapters: {
       eyebrow: "Runner",
       title: "5 個 runner、共用一組 tool",
-      sub: "用 <code>QA_RUNNER</code> 環境變數切。同樣的工具，五種 framework——四種 Web，手機走 Maestro。",
+      sub: "用 <code>QA_RUNNER</code> 環境變數切。同樣的工具，五種 framework——四種 Web，手機走 Maestro。<strong>API 測試</strong>直接搭其中四個的 ecosystem（pytest + <code>httpx</code>、Jest + <code>supertest</code>、Cypress <code>cy.request()</code>、Go <code>httptest</code>）——一樣吃 history、flake / broken 分類跟 optimizer。專門的 API contract runner（Schemathesis / Newman / Pact）在 v0.6 roadmap。",
       rows: [
         { src: "pytest-playwright", auth: "QA_RUNNER=pytest", since: "0.1.0" },
         { src: "jest", auth: "QA_RUNNER=jest", since: "0.2.0" },

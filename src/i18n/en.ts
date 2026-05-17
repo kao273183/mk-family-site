@@ -63,7 +63,7 @@ const en: Translation = {
       eyebrow: "Member 1 · Execution side of the loop",
       title: 'Let\'s make <span class="accent">QA</span> simple.',
       altName: "AI 測試大師 · MK QA MASTER",
-      sub: "mk-qa-master is an MCP server that drives <strong>web</strong> (pytest / Jest / Cypress / Go) and <strong>mobile</strong> (Maestro on iOS + Android, incl. BlueStacks) test suites — writes the next round from a URL or a live screen, and acts as your data-driven QA advisor every single run.",
+      sub: "mk-qa-master is an MCP server that drives <strong>web</strong> (pytest / Jest / Cypress / Go), <strong>mobile</strong> (Maestro on iOS + Android, incl. BlueStacks), and <strong>API</strong> tests (anything your pytest / Jest / Cypress / Go test suite already hits) — writes the next round from a URL or a live screen, and acts as your data-driven QA advisor every single run.",
     },
     features: {
       eyebrow: "What it does",
@@ -201,7 +201,7 @@ const en: Translation = {
     adapters: {
       eyebrow: "Runners",
       title: "5 runners, one tool surface",
-      sub: "Switch via the <code>QA_RUNNER</code> env var. Same tools, five different frameworks — web on four, mobile on Maestro.",
+      sub: "Switch via the <code>QA_RUNNER</code> env var. Same tools, five different frameworks — web on four, mobile on Maestro. <strong>API tests</strong> ride the existing four (pytest + <code>httpx</code>, Jest + <code>supertest</code>, Cypress <code>cy.request()</code>, Go <code>httptest</code>) and get the same history / classification / coaching. Dedicated API-contract runners (Schemathesis / Newman / Pact) on the v0.6 roadmap.",
       rows: [
         { src: "pytest-playwright", auth: "QA_RUNNER=pytest", since: "0.1.0" },
         { src: "jest", auth: "QA_RUNNER=jest", since: "0.2.0" },
