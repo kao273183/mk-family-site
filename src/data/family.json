@@ -5,19 +5,19 @@
       "name": "mk-qa-master",
       "displayName": "MK QA Master",
       "altName": "AI 測試大師",
-      "tagline": "Run + analyze + advise — across pytest / Jest / Cypress / Go / Maestro.",
-      "tagline_zh": "跨 pytest / Jest / Cypress / Go / Maestro 的執行 + 分析 + 顧問。",
+      "tagline": "Run + analyze + advise — web (pytest / Jest / Cypress / Go), mobile (Maestro), and API (Schemathesis / Newman).",
+      "tagline_zh": "跨 web（pytest / Jest / Cypress / Go）、手機（Maestro）、API（Schemathesis / Newman）的執行 + 分析 + 顧問。",
       "role": "Execution side of the loop",
       "role_zh": "迴圈的執行端",
-      "status": "alpha · v0.5.1",
+      "status": "alpha · v0.6.1",
       "github": "https://github.com/kao273183/mk-qa-master",
       "pypi": "https://pypi.org/project/mk-qa-master/",
       "tools": 16,
       "highlights": [
-        "Cross-runner: pytest-playwright, Jest, Cypress, Go test, Maestro (iOS + Android + BlueStacks)",
-        "analyze_url / analyze_screen — DOM + mobile hierarchy probing",
-        "generate_test — runnable Playwright .py or Maestro .yaml, not # TODO stubs",
-        "get_optimization_plan — three-lens coach (suite / MCP / AI)"
+        "7 runners across web + mobile + API — switch with one QA_RUNNER env var",
+        "analyze_url / analyze_screen — real DOM selectors + live mobile hierarchy, no hallucinated classes",
+        "generate_test — runnable pytest .py or Maestro .yaml; Schemathesis auto-fuzzes any OpenAPI schema",
+        "get_optimization_plan — classifies broken vs flaky vs slow-regression with evidence from run history"
       ]
     },
     {
