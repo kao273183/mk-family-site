@@ -200,8 +200,8 @@ const en: Translation = {
     },
     adapters: {
       eyebrow: "Runners",
-      title: "6 runners, one tool surface",
-      sub: "Switch via the <code>QA_RUNNER</code> env var. Six frameworks, one MCP surface — web on four, mobile on Maestro, <strong>API on Schemathesis</strong> (since v0.6.0). Pre-existing API tests in pytest + <code>httpx</code> / Jest + <code>supertest</code> / Cypress <code>cy.request()</code> / Go <code>httptest</code> still ride their respective runners — no migration. Newman (Postman) lands in v0.6.1; Pact provider verification in v0.7.0.",
+      title: "7 runners, one tool surface",
+      sub: "Switch via the <code>QA_RUNNER</code> env var. Seven frameworks, one MCP surface — web on four, mobile on Maestro, <strong>API on Schemathesis</strong> (OpenAPI / Swagger, since v0.6.0) or <strong>Newman</strong> (Postman collections, since v0.6.1). Pre-existing API tests in pytest + <code>httpx</code> / Jest + <code>supertest</code> / Cypress <code>cy.request()</code> / Go <code>httptest</code> still ride their respective runners — no migration. Pact provider verification on the v0.7.0 roadmap.",
       rows: [
         { src: "pytest-playwright", auth: "QA_RUNNER=pytest", since: "0.1.0" },
         { src: "jest", auth: "QA_RUNNER=jest", since: "0.2.0" },
@@ -209,6 +209,7 @@ const en: Translation = {
         { src: "go test", auth: "QA_RUNNER=go", since: "0.2.0" },
         { src: "maestro (iOS + Android + BlueStacks)", auth: "QA_RUNNER=maestro (+ optional QA_ANDROID_HOST for BlueStacks)", since: "0.3.0" },
         { src: "schemathesis (OpenAPI / Swagger)", auth: "QA_RUNNER=schemathesis + QA_OPENAPI_URL (http(s):// or file://); install with mk-qa-master[api]", since: "0.6.0" },
+        { src: "newman (Postman collections)", auth: "QA_RUNNER=newman + QA_POSTMAN_COLLECTION (path); system prereq: npm install -g newman", since: "0.6.1" },
       ],
     },
     workflows: {

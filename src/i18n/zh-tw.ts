@@ -200,8 +200,8 @@ const zhTw: Translation = {
     },
     adapters: {
       eyebrow: "Runner",
-      title: "6 個 runner、共用一組 tool",
-      sub: "用 <code>QA_RUNNER</code> 環境變數切。六種 framework、同一個 MCP 介面——四種 Web、手機走 Maestro、<strong>API 走 Schemathesis</strong>（v0.6.0 起）。既有的 API 測試（pytest + <code>httpx</code> / Jest + <code>supertest</code> / Cypress <code>cy.request()</code> / Go <code>httptest</code>）繼續搭原 runner、不用搬家。Newman（Postman）在 v0.6.1、Pact provider 在 v0.7.0。",
+      title: "7 個 runner、共用一組 tool",
+      sub: "用 <code>QA_RUNNER</code> 環境變數切。七種 framework、同一個 MCP 介面——四種 Web、手機走 Maestro、<strong>API 走 Schemathesis</strong>（OpenAPI / Swagger，v0.6.0 起）或 <strong>Newman</strong>（Postman collection，v0.6.1 起）。既有的 API 測試（pytest + <code>httpx</code> / Jest + <code>supertest</code> / Cypress <code>cy.request()</code> / Go <code>httptest</code>）繼續搭原 runner、不用搬家。Pact provider 驗證在 v0.7.0 roadmap。",
       rows: [
         { src: "pytest-playwright", auth: "QA_RUNNER=pytest", since: "0.1.0" },
         { src: "jest", auth: "QA_RUNNER=jest", since: "0.2.0" },
@@ -209,6 +209,7 @@ const zhTw: Translation = {
         { src: "go test", auth: "QA_RUNNER=go", since: "0.2.0" },
         { src: "maestro（iOS + Android + BlueStacks）", auth: "QA_RUNNER=maestro（+ 選用 QA_ANDROID_HOST 給 BlueStacks）", since: "0.3.0" },
         { src: "schemathesis（OpenAPI / Swagger）", auth: "QA_RUNNER=schemathesis + QA_OPENAPI_URL（http(s):// 或 file://）；裝 mk-qa-master[api]", since: "0.6.0" },
+        { src: "newman（Postman collection）", auth: "QA_RUNNER=newman + QA_POSTMAN_COLLECTION（路徑）；系統前置：npm install -g newman", since: "0.6.1" },
       ],
     },
     workflows: {
